@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roteiros de Conteúdo · Cirurgia Plástica</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --surface: #111114;
+    --surface2: #18181d;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0ede8;
+    --muted: #888890;
+    --accent: #c9a96e;
+    --accent2: #e8c99a;
+    --rose: #d4748c;
+    --teal: #5bb8a8;
+    --purple: #9b7ed4;
+    --green: #7ab87a;
+    --blue: #6699cc;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  header {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(201,169,110,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .eyebrow-pill {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border2);
+    color: var(--muted);
+  }
+
+  .eyebrow-pill.gold {
+    border-color: rgba(201,169,110,0.4);
+    color: var(--accent);
+    background: rgba(201,169,110,0.06);
+  }
+
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 60px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .header-title span {
+    color: var(--accent);
+  }
+
+  .header-sub {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 500px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  .header-stats {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* GRID DE SCRIPTS */
+  .scripts-section {
+    padding: 60px 0 100px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* CARD */
+  .script-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+
+  .script-card:hover {
+    border-color: var(--border2);
+  }
+
+  .script-card.open {
+    border-color: rgba(201,169,110,0.25);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 28px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+
+  .card-header:hover {
+    background: rgba(255,255,255,0.02);
+  }
+
+  .card-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    width: 28px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .card-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid;
+  }
+
+  .tag.viral    { color: #e8a05a; border-color: rgba(232,160,90,0.35); background: rgba(232,160,90,0.07); }
+  .tag.edu      { color: var(--teal); border-color: rgba(91,184,168,0.35); background: rgba(91,184,168,0.07); }
+  .tag.emocao   { color: var(--rose); border-color: rgba(212,116,140,0.35); background: rgba(212,116,140,0.07); }
+  .tag.opini    { color: var(--purple); border-color: rgba(155,126,212,0.35); background: rgba(155,126,212,0.07); }
+  .tag.comedia  { color: var(--green); border-color: rgba(122,184,122,0.35); background: rgba(122,184,122,0.07); }
+  .tag.alerta   { color: #e06060; border-color: rgba(224,96,96,0.35); background: rgba(224,96,96,0.07); }
+  .tag.case     { color: var(--blue); border-color: rgba(102,153,204,0.35); background: rgba(102,153,204,0.07); }
+
+  .card-arrow {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: transform 0.3s, border-color 0.3s, color 0.3s;
+    flex-shrink: 0;
+    font-size: 12px;
+  }
+
+  .script-card.open .card-arrow {
+    transform: rotate(180deg);
+    border-color: rgba(201,169,110,0.4);
+    color: var(--accent);
+  }
+
+  /* CORPO DO CARD */
+  .card-body {
+    display: none;
+    padding: 0 28px 32px;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
+
+  .script-card.open .card-body {
+    display: block;
+  }
+
+  .body-spacer { height: 28px; }
+
+  /* GANCHO */
+  .block-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .hook-box {
+    background: linear-gradient(135deg, rgba(201,169,110,0.06) 0%, rgba(201,169,110,0.02) 100%);
+    border: 1px solid rgba(201,169,110,0.2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 18px 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--accent2);
+    line-height: 1.55;
+    margin-bottom: 28px;
+  }
+
+  /* CENAS */
+  .scenes-block { margin-bottom: 28px; }
+
+  .scene {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 10px;
+  }
+
+  .scene-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .scene-text {
+    font-size: 14.5px;
+    color: #c8c5c0;
+    line-height: 1.75;
+  }
+
+  .scene-text b {
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .stage {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  /* CTA */
+  .cta-box {
+    background: rgba(155,126,212,0.06);
+    border: 1px solid rgba(155,126,212,0.2);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .cta-text {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: #c5badf;
+    line-height: 1.6;
+  }
+
+  /* DIVISOR INTERNO */
+  .inner-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0 60px;
+    text-align: center;
+  }
+
+  .footer-text {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .footer-text span {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* PROGRESS BAR TOP */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--rose));
+    z-index: 999;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    header { padding: 50px 0 40px; }
+    .card-header { padding: 20px; gap: 14px; }
+    .card-body { padding: 0 20px 28px; }
+    .hook-box { font-size: 15px; }
+    .card-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="container">
+
+  <header>
+    <div class="header-eyebrow">
+      <span class="eyebrow-pill gold">Cirurgia Plástica</span>
+      <span class="eyebrow-pill">10 Vídeos</span>
+      <span class="eyebrow-pill">Reels · TikTok · YouTube Shorts</span>
+    </div>
+    <h1 class="header-title">Roteiros de<br><span>Conteúdo</span></h1>
+    <p class="header-sub">Roteiros completos com gatilho de retenção nos primeiros 3 segundos. Prontos para gravar.</p>
+    <div class="header-stats">
+      <div class="stat"><span class="stat-num">10</span><span class="stat-label">Roteiros</span></div>
+      <div class="stat"><span class="stat-num">3s</span><span class="stat-label">Gancho garantido</span></div>
+      <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Pronto para gravar</span></div>
+    </div>
+  </header>
+
+  <main class="scripts-section">
+    <p class="section-label">Todos os roteiros</p>
+
+    <!-- CARD 1 -->
+    <div class="script-card" id="card1">
+      <div class="card-header" onclick="toggle('card1')">
+        <span class="card-num">01</span>
+        <div class="card-info">
+          <h2 class="card-title">Polêmica Estética JK</h2>
+          <div class="tags">
+            <span class="tag viral">Polêmica</span>
+            <span class="tag edu">Educativo</span>
+            <span class="tag opini">Posicionamento</span>
+          </div>
+        </div>
+        <div class="card-arrow">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="body-spacer"></div>
+        <p class="block-title">Gancho · Primeiros 3 segundos</p>
+        <div class="hook-box">"Uma paciente da clínica mais famosa do Brasil teve necrose. E eu preciso falar sobre isso."</div>
+
+        <p class="block-title">Roteiro completo</p>
+        <div class="scenes-block">
+          <div class="scene">
+            <p class="scene-tag">Cena 1 · Abertura</p>
+            <p class="scene-text"><span class="stage">[Você aparece direto, olhando para a câmera, tom sério mas acessível]</span><br><br><b>Fala:</b> "Uma paciente da clínica mais famosa do Brasil teve necrose. Você provavelmente viu esse caso circulando. E eu preciso falar sobre isso com cuidado, porque tem muita coisa sendo dita de forma errada."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 2 · O que é necrose</p>
+            <p class="scene-text"><b>Fala:</b> "Primeiro, o que é necrose? É quando um tecido perde o suprimento de sangue e começa a morrer. No contexto de cirurgia plástica, isso pode acontecer em qualquer tipo de procedimento. Mamoplastia, lipoaspiração, abdominoplastia. Não importa o tamanho da clínica, o preço que foi cobrado ou os famosos que já operaram lá."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 3 · O que aumenta o risco</p>
+            <p class="scene-text"><b>Fala:</b> "Existem fatores que aumentam muito esse risco. Paciente fumante operando sem parar de fumar antes. Diabetes sem controle. Pressão arterial descompensada. Indicação errada, ou seja, operar alguém que clinicamente não deveria estar na mesa de cirurgia ainda. E falta de acompanhamento no pós operatório, que é quando a maioria dos sinais aparecem e podem ser revertidos se pegos cedo."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 4 · Posicionamento</p>
+            <p class="scene-text"><b>Fala:</b> "Eu não estou aqui para atacar nenhuma clínica ou nenhum colega. Estou aqui para dizer o que ninguém está dizendo nessa discussão. Complicação existe em cirurgia. O que diferencia um profissional é o quanto ele avalia antes de operar, o quanto ele acompanha depois e o quanto ele é honesto quando algo dá errado. Isso é o básico. E deveria ser o mínimo."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 5 · Encerramento</p>
+            <p class="scene-text"><b>Fala:</b> "Se você está planejando qualquer procedimento estético, pesquisa o seu médico. Não pelo tamanho da clínica, não pelos famosos que ele já operou. Pesquisa pela consistência, pela avaliação que ele faz e pela transparência com você. Me manda sua dúvida nos comentários. Eu respondo todas."</p>
+          </div>
+        </div>
+
+        <div class="inner-divider"></div>
+        <p class="block-title">CTA final</p>
+        <div class="cta-box">
+          <p class="cta-text">"Comenta aqui: você sabia que fatores como cigarro e diabetes aumentam tanto o risco cirúrgico?"</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="script-card" id="card2">
+      <div class="card-header" onclick="toggle('card2')">
+        <span class="card-num">02</span>
+        <div class="card-info">
+          <h2 class="card-title">Qual cirurgia eu faria hoje</h2>
+          <div class="tags">
+            <span class="tag emocao">Vulnerabilidade</span>
+            <span class="tag opini">Opinião médica</span>
+            <span class="tag viral">Alto engajamento</span>
+          </div>
+        </div>
+        <div class="card-arrow">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="body-spacer"></div>
+        <p class="block-title">Gancho · Primeiros 3 segundos</p>
+        <div class="hook-box">"Se eu fosse sentar na minha própria maca hoje, tem uma cirurgia que eu faria sem pensar duas vezes. E tem outra que eu nunca deixaria ninguém fazer em mim."</div>
+
+        <p class="block-title">Roteiro completo</p>
+        <div class="scenes-block">
+          <div class="scene">
+            <p class="scene-tag">Cena 1 · Abertura com tensão</p>
+            <p class="scene-text"><b>Fala:</b> "Sou cirurgião plástico. Opero outros. Mas fui criado igual a você, com inseguranças, com coisas que olhava no espelho e não gostava. Então deixa eu te contar o que eu faria, sendo completamente honesto."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 2 · A cirurgia que faria</p>
+            <p class="scene-text"><b>Fala:</b> "Eu faria uma blefaroplastia. Que é a cirurgia das pálpebras. Porque com o tempo a pálpebra superior cai, o olhar fica mais cansado, e o resultado da blefaroplastia é um dos mais naturais que existe em cirurgia plástica. Você parece mais descansado, mais jovem, sem parecer que fez nada. É discreta, eficiente e com baixo índice de complicação quando bem indicada. Faria hoje."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 3 · A cirurgia que evitaria</p>
+            <p class="scene-text"><b>Fala:</b> "Agora o que eu evitaria? Qualquer procedimento facial muito volumoso feito de forma rápida e sem planejamento. Preenchimentos em excesso, lifting sem avaliação completa. Porque o rosto tem uma memória. E quando você exagera, corrigir é muito mais difícil do que teria sido não fazer. Eu prefiro sempre o resultado que envelhece bem ao longo do tempo ao que impressiona hoje e compromete amanhã."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 4 · Encerramento</p>
+            <p class="scene-text"><b>Fala:</b> "É isso. Sou suspeito para falar porque opero. Mas sou a pessoa mais honesta que você vai encontrar sobre o assunto, justamente por isso. Comenta aqui qual você faria."</p>
+          </div>
+        </div>
+
+        <div class="inner-divider"></div>
+        <p class="block-title">CTA final</p>
+        <div class="cta-box">
+          <p class="cta-text">"Comenta aqui qual cirurgia você faria se pudesse. Sem julgamento nenhum."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="script-card" id="card3">
+      <div class="card-header" onclick="toggle('card3')">
+        <span class="card-num">03</span>
+        <div class="card-info">
+          <h2 class="card-title">O que aprendi com meus pacientes</h2>
+          <div class="tags">
+            <span class="tag emocao">Storytelling</span>
+            <span class="tag emocao">Emoção</span>
+            <span class="tag edu">Humanização</span>
+          </div>
+        </div>
+        <div class="card-arrow">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="body-spacer"></div>
+        <p class="block-title">Gancho · Primeiros 3 segundos</p>
+        <div class="hook-box">"Minha paciente me ensinou algo que nenhuma faculdade de medicina conseguiu. E isso mudou a forma como eu opero até hoje."</div>
+
+        <p class="block-title">Roteiro completo</p>
+        <div class="scenes-block">
+          <div class="scene">
+            <p class="scene-tag">Cena 1 · Abertura</p>
+            <p class="scene-text"><b>Fala:</b> "Quando você passa anos estudando medicina, você aprende muito sobre o corpo humano. Mas ninguém te ensina a ouvir de verdade o que está por trás de uma queixa estética."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 2 · O caso</p>
+            <p class="scene-text"><b>Fala:</b> "Teve uma paciente que chegou no meu consultório querendo operar o abdômen. Ela tinha passado por duas gestações, o corpo tinha mudado muito e ela me disse que não se reconhecia mais. Eu comecei a falar sobre o procedimento, os detalhes técnicos, e ela me interrompeu. Ela disse: doutor, eu não estou aqui porque eu odeio meu corpo. Estou aqui porque eu quero me sentir eu de novo."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 3 · A virada</p>
+            <p class="scene-text"><b>Fala:</b> "Aquela frase travou alguma coisa em mim. Eu percebi que eu estava tão focado no procedimento que esqueci de escutar o motivo. E o motivo muda tudo. Muda o planejamento, muda o que você faz no pós operatório, muda até o resultado final, porque a expectativa está alinhada com o que ela realmente precisava."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 4 · O aprendizado</p>
+            <p class="scene-text"><b>Fala:</b> "Desde então, minha primeira pergunta na consulta não é mais sobre o que incomoda. É: o que você quer sentir quando olhar no espelho depois? Parece pequeno. Mas mudou tudo na forma como eu conduzo cada caso."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 5 · Encerramento</p>
+            <p class="scene-text"><b>Fala:</b> "Medicina não é só técnica. É escuta. E os meus melhores professores foram, e continuam sendo, os meus pacientes."</p>
+          </div>
+        </div>
+
+        <div class="inner-divider"></div>
+        <p class="block-title">CTA final</p>
+        <div class="cta-box">
+          <p class="cta-text">"Me conta nos comentários: um profissional de saúde já te disse algo que ficou na sua cabeça até hoje?"</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="script-card" id="card4">
+      <div class="card-header" onclick="toggle('card4')">
+        <span class="card-num">04</span>
+        <div class="card-info">
+          <h2 class="card-title">Trend viral · Comédia</h2>
+          <div class="tags">
+            <span class="tag comedia">Comédia</span>
+            <span class="tag viral">Trend</span>
+            <span class="tag comedia">Reels</span>
+          </div>
+        </div>
+        <div class="card-arrow">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="body-spacer"></div>
+        <p class="block-title">Gancho · Primeiros 3 segundos</p>
+        <div class="hook-box"><span class="stage">[Você aparece com expressão de médico cansado. Texto na tela:]</span><br>"O que o paciente fala vs o que eu ouço."</div>
+
+        <p class="block-title">Roteiro completo · Cortes rápidos</p>
+        <div class="scenes-block">
+          <div class="scene">
+            <p class="scene-tag">Cena 1</p>
+            <p class="scene-text"><b>Paciente (texto na tela):</b> "Quero algo bem natural, ninguém pode perceber."<br><br><b>Você:</b> "Certo." <span class="stage">[Pausa]</span> "Natural." <span class="stage">[Pausa de novo. Olha pra câmera com sorriso de quem já sabe o que vem por aí]</span></p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 2</p>
+            <p class="scene-text"><b>Paciente:</b> "É pequenininho, não vai nem doer né?"<br><br><b>Você:</b> <span class="stage">[Respira fundo, abre a boca, fecha. Sorri.]</span> "Você vai estar bem."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 3</p>
+            <p class="scene-text"><b>Paciente:</b> "Vi no TikTok que dá pra fazer numa sexta e voltar ao trabalho na segunda."<br><br><b>Você:</b> <span class="stage">[Olha para o lado. Olha de volta pra câmera. Aperta os lábios.]</span> "Manda esse TikTok pra mim."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 4</p>
+            <p class="scene-text"><b>Paciente:</b> "Quero ficar igual àquela influencer."<br><br><b>Você:</b> <span class="stage">[Para tudo. Olha pra câmera com aquele olhar de consultor de vida. Longa pausa.]</span></p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 5 · Encerramento</p>
+            <p class="scene-text"><b>Fala:</b> "Mas sabe o que é engraçado? No final, quando o resultado fica exatamente o que a paciente precisava, eu esqueço tudo isso. Vale cada consulta." <span class="stage">[Sorri de verdade]</span></p>
+          </div>
+        </div>
+
+        <div class="inner-divider"></div>
+        <p class="block-title">CTA final</p>
+        <div class="cta-box">
+          <p class="cta-text">"Todo cirurgião plástico vai se identificar. Marca o seu médico aqui nos comentários."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 5 -->
+    <div class="script-card" id="card5">
+      <div class="card-header" onclick="toggle('card5')">
+        <span class="card-num">05</span>
+        <div class="card-info">
+          <h2 class="card-title">React · Cirurgia plástica nas redes sociais</h2>
+          <div class="tags">
+            <span class="tag viral">React</span>
+            <span class="tag edu">Análise técnica</span>
+            <span class="tag opini">Autoridade</span>
+          </div>
+        </div>
+        <div class="card-arrow">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="body-spacer"></div>
+        <p class="block-title">Gancho · Primeiros 3 segundos</p>
+        <div class="hook-box">"Esse vídeo está viralizando nas redes. E eu, como cirurgião plástico, preciso parar e explicar o que está acontecendo aqui."</div>
+
+        <p class="block-title">Roteiro completo</p>
+        <div class="scenes-block">
+          <div class="scene">
+            <p class="scene-tag">Cena 1 · Abertura</p>
+            <p class="scene-text"><b>Fala:</b> "Esse vídeo está circulando muito. Já me mandaram umas 30 vezes no direct. E eu entendo por quê. O resultado parece incrível à primeira vista. Mas eu vou te mostrar o que eu vejo quando assisto isso como médico." <span class="stage">[Coloca o vídeo pra rodar ao lado ou descreve o que está sendo mostrado]</span></p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 2 · Pausa e análise</p>
+            <p class="scene-text"><b>Fala:</b> "Para. Olha aqui. Essa marcação que você está vendo não está respeitando a anatomia natural do paciente. Quando você ignora a simetria de base, o resultado pode parecer ótimo nas primeiras semanas, enquanto ainda tem edema. Quando o edema vai embora, você vê a realidade."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 3 · Ponto técnico acessível</p>
+            <p class="scene-text"><b>Fala:</b> "Outro ponto: o pós operatório que está sendo mostrado aqui é de menos de duas semanas. Isso não é resultado. Resultado de cirurgia plástica você avalia com seis meses no mínimo. Mostrar duas semanas de pós como resultado final é, no mínimo, enganoso para quem não conhece o processo."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 4 · Encerramento</p>
+            <p class="scene-text"><b>Fala:</b> "Eu não estou aqui para falar mal de ninguém. Estou aqui porque você merece entender o que está assistindo antes de tomar qualquer decisão. Se você quiser me mandar algum vídeo pra eu avaliar, manda no direct. Faço um react especial."</p>
+          </div>
+        </div>
+
+        <div class="inner-divider"></div>
+        <p class="block-title">CTA final</p>
+        <div class="cta-box">
+          <p class="cta-text">"Manda aqui nos comentários ou no direct o próximo vídeo que você quiser que eu avalie."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 6 -->
+    <div class="script-card" id="card6">
+      <div class="card-header" onclick="toggle('card6')">
+        <span class="card-num">06</span>
+        <div class="card-info">
+          <h2 class="card-title">Faço cirurgia em todas as pacientes?</h2>
+          <div class="tags">
+            <span class="tag edu">Desmistificação</span>
+            <span class="tag opini">Ética médica</span>
+            <span class="tag edu">Confiança</span>
+          </div>
+        </div>
+        <div class="card-arrow">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="body-spacer"></div>
+        <p class="block-title">Gancho · Primeiros 3 segundos</p>
+        <div class="hook-box">"Você me mandou mensagem pedindo uma cirurgia. Eu disse não. E isso foi o maior presente que eu poderia ter te dado."</div>
+
+        <p class="block-title">Roteiro completo</p>
+        <div class="scenes-block">
+          <div class="scene">
+            <p class="scene-tag">Cena 1 · Abertura</p>
+            <p class="scene-text"><b>Fala:</b> "Tem muita gente que entra em consulta comigo com a cirurgia já decidida na cabeça. Já pesquisou, já assistiu vídeo, já sabe o nome do procedimento. E sai de lá sem a cirurgia marcada. Não porque o problema não existe. Mas porque operar agora não era a resposta certa."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 2 · Desmistificando</p>
+            <p class="scene-text"><b>Fala:</b> "Cirurgia plástica não é um cardápio. Você não chega e pede o que quer. Existe indicação clínica. Existe avaliação de saúde geral, condições como diabetes, pressão, histórico de cicatrização, uso de medicamentos. Existe também avaliação de expectativa. Se o que você espera do procedimento não é o que ele pode entregar, a cirurgia vai te frustrar, independente de como ela ficou tecnicamente."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 3 · A responsabilidade do médico</p>
+            <p class="scene-text"><b>Fala:</b> "Um médico que opera tudo que chega não está te servindo. Está te colocando em risco. Já orientei pacientes a perderem peso antes de operar. Já pedi que passassem por acompanhamento psicológico antes de decidir. Já disse que o momento não era esse. Porque o meu trabalho não é vender cirurgia. É te entregar o melhor resultado possível. E às vezes isso começa com um não."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 4 · Encerramento</p>
+            <p class="scene-text"><b>Fala:</b> "Se você saiu de alguma consulta sem a cirurgia marcada e ficou com raiva, eu entendo. Mas guarda esse vídeo. Porque aquele médico provavelmente estava cuidando de você de verdade."</p>
+          </div>
+        </div>
+
+        <div class="inner-divider"></div>
+        <p class="block-title">CTA final</p>
+        <div class="cta-box">
+          <p class="cta-text">"Alguma vez você foi orientada a esperar antes de operar? Me conta como foi nos comentários."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 7 -->
+    <div class="script-card" id="card7">
+      <div class="card-header" onclick="toggle('card7')">
+        <span class="card-num">07</span>
+        <div class="card-info">
+          <h2 class="card-title">Uma queixa, uma solução</h2>
+          <div class="tags">
+            <span class="tag edu">Pergunta e resposta</span>
+            <span class="tag viral">Alto engajamento</span>
+            <span class="tag edu">Série</span>
+          </div>
+        </div>
+        <div class="card-arrow">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="body-spacer"></div>
+        <p class="block-title">Gancho · Primeiros 3 segundos</p>
+        <div class="hook-box">"Você me mandou essa queixa. Eu vou te dar a solução em menos de 60 segundos."</div>
+
+        <p class="block-title">Roteiro completo · Exemplo: "Minha barriga não some mesmo treinando todos os dias"</p>
+        <div class="scenes-block">
+          <div class="scene">
+            <p class="scene-tag">Cena 1 · A queixa</p>
+            <p class="scene-text"><b>Fala:</b> "A queixa de hoje veio do direct: minha barriga não some mesmo malhando todos os dias. Emagreci, treino com consistência, mas ela continua lá. O que está acontecendo?"</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 2 · A explicação da causa</p>
+            <p class="scene-text"><b>Fala:</b> "O que provavelmente está acontecendo é que o problema não é gordura. É diástase. Que é a separação dos músculos abdominais que fica no centro da barriga. Isso é muito comum após gestação, mas também pode acontecer em pessoas que nunca engravidaram. E o detalhe importante: academia não fecha diástase. Nenhum exercício fecha diástase. Exercício pode até piorar dependendo do tipo."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 3 · As opções</p>
+            <p class="scene-text"><b>Fala:</b> "A solução cirúrgica é a abdominoplastia, que corrige a diástase e remove o excesso de pele. Mas antes de qualquer decisão, você precisa de uma avaliação para confirmar se é isso mesmo que está acontecendo. Pode ser diástase, pode ser gordura visceral, pode ser excesso de pele. Cada uma tem uma abordagem diferente."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 4 · Encerramento</p>
+            <p class="scene-text"><b>Fala:</b> "Manda a sua queixa aqui nos comentários. O próximo vídeo pode ser sobre você."</p>
+          </div>
+        </div>
+
+        <div class="inner-divider"></div>
+        <p class="block-title">CTA final</p>
+        <div class="cta-box">
+          <p class="cta-text">"Qual é a sua queixa? Comenta aqui embaixo e eu escolho pra responder no próximo vídeo."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 8 -->
+    <div class="script-card" id="card8">
+      <div class="card-header" onclick="toggle('card8')">
+        <span class="card-num">08</span>
+        <div class="card-info">
+          <h2 class="card-title">Paternidade</h2>
+          <div class="tags">
+            <span class="tag emocao">Humanização</span>
+            <span class="tag emocao">Pessoal</span>
+            <span class="tag viral">Alcance orgânico</span>
+          </div>
+        </div>
+        <div class="card-arrow">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="body-spacer"></div>
+        <p class="block-title">Gancho · Primeiros 3 segundos</p>
+        <div class="hook-box">"Eu já operei centenas de pacientes. Mas a cirurgia mais difícil da minha vida foi sair de casa de madrugada quando meu filho me chamou."</div>
+
+        <p class="block-title">Roteiro completo</p>
+        <div class="scenes-block">
+          <div class="scene">
+            <p class="scene-tag">Cena 1 · Abertura</p>
+            <p class="scene-text"><b>Fala:</b> "Eu sou cirurgião. Isso significa que a minha rotina não tem muito espaço para horário. Plantão de madrugada, cirurgia que começa às seis da manhã, pós operatório de emergência. Você aprende a funcionar assim. Mas quando você vira pai, você descobre que tem um tipo de chamado que pesa de um jeito diferente."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 2 · O momento</p>
+            <p class="scene-text"><b>Fala:</b> "Meu filho tinha quatro anos quando acordou de madrugada com febre alta. Eu tinha chegado em casa três horas antes de uma cirurgia longa. Estava no limite físico. E ele chamou por mim. Não pela mãe. Por mim. E eu me levantei. E fiquei do lado dele até ele dormir de novo. E não dormi mais naquela noite."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 3 · O que isso mudou</p>
+            <p class="scene-text"><b>Fala:</b> "Aquela noite me lembrou de algo que a medicina às vezes faz você esquecer: que presença não é sobre quantidade de horas. É sobre estar de verdade quando importa. E eu levo isso para o consultório também. Quando uma paciente está nervosa antes de entrar no centro cirúrgico, ela não precisa de mais dados técnicos. Ela precisa de presença."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 4 · Encerramento</p>
+            <p class="scene-text"><b>Fala:</b> "Ser pai me tornou um médico melhor. Isso eu tenho certeza. Se você é pai e médico ao mesmo tempo, me conta aqui como você equilibra isso. Porque eu ainda estou aprendendo."</p>
+          </div>
+        </div>
+
+        <div class="inner-divider"></div>
+        <p class="block-title">CTA final</p>
+        <div class="cta-box">
+          <p class="cta-text">"Pais médicos ou pais de qualquer área: como vocês fazem esse equilíbrio? Comenta aqui."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 9 -->
+    <div class="script-card" id="card9">
+      <div class="card-header" onclick="toggle('card9')">
+        <span class="card-num">09</span>
+        <div class="card-info">
+          <h2 class="card-title">Antes e depois · Storytelling emocional</h2>
+          <div class="tags">
+            <span class="tag case">Case</span>
+            <span class="tag emocao">Emoção</span>
+            <span class="tag case">Prova social</span>
+          </div>
+        </div>
+        <div class="card-arrow">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="body-spacer"></div>
+        <p class="block-title">Gancho · Primeiros 3 segundos</p>
+        <div class="hook-box">"Ela demorou 11 anos para tomar essa decisão. E quando ela saiu da minha consulta com a cirurgia marcada, ela chorou. Não de medo. De alívio."</div>
+
+        <p class="block-title">Roteiro completo</p>
+        <div class="scenes-block">
+          <div class="scene">
+            <p class="scene-tag">Cena 1 · Contexto</p>
+            <p class="scene-text"><b>Fala:</b> "Essa paciente chegou no meu consultório com uma queixa que ela carregava desde a primeira gestação. Ptose mamária, que é a queda dos seios depois da amamentação. Ela me disse que tinha parado de ir à praia, que evitava determinado tipo de roupa, que sentia que o próprio corpo tinha deixado de ser dela."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 2 · O caminho até a decisão</p>
+            <p class="scene-text"><b>Fala:</b> "Ela tinha pesquisado antes, consultado outros médicos, mas sempre adiava. Esperou os filhos crescerem, esperou o momento financeiro certo, esperou se sentir pronta. Quando chegou até mim, a primeira coisa que me disse foi: acho que finalmente chegou a hora."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 3 · O procedimento</p>
+            <p class="scene-text"><b>Fala:</b> "Realizamos uma mastopexia com implante. O planejamento levou em conta o formato natural dela, a posição do mamilo, a simetria, e principalmente o resultado que faria sentido para o corpo dela, não para um padrão de fora."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 4 · O resultado</p>
+            <p class="scene-text"><b>Fala:</b> "Com seis meses de pós operatório, ela voltou no consultório. Me mostrou uma foto dela na praia. A primeira em mais de uma década. E disse: voltei a me sentir eu." <span class="stage">[Mostra o antes e depois com autorização da paciente]</span></p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 5 · Encerramento</p>
+            <p class="scene-text"><b>Fala:</b> "Isso é o que cirurgia plástica faz quando é bem indicada e bem executada. Não muda quem você é. Te devolve pra você mesma."</p>
+          </div>
+        </div>
+
+        <div class="inner-divider"></div>
+        <p class="block-title">CTA final</p>
+        <div class="cta-box">
+          <p class="cta-text">"Se você se identificou com essa história, me chama no direct. Vamos conversar sobre o seu caso."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 10 -->
+    <div class="script-card" id="card10">
+      <div class="card-header" onclick="toggle('card10')">
+        <span class="card-num">10</span>
+        <div class="card-info">
+          <h2 class="card-title">Antes e depois · Case técnico</h2>
+          <div class="tags">
+            <span class="tag case">Case</span>
+            <span class="tag opini">Autoridade</span>
+            <span class="tag edu">Técnica cirúrgica</span>
+          </div>
+        </div>
+        <div class="card-arrow">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="body-spacer"></div>
+        <p class="block-title">Gancho · Primeiros 3 segundos</p>
+        <div class="hook-box">"Esse foi um dos casos mais desafiadores que já operei. Ela tinha passado por duas cirurgias antes. E os dois resultados tinham dado errado."</div>
+
+        <p class="block-title">Roteiro completo</p>
+        <div class="scenes-block">
+          <div class="scene">
+            <p class="scene-tag">Cena 1 · O desafio</p>
+            <p class="scene-text"><b>Fala:</b> "Quando uma paciente chega com histórico de cirurgias anteriores com resultado insatisfatório, o trabalho muda completamente. Você não está partindo do zero. Você está lidando com tecido cicatricial, com simetria já comprometida e, muitas vezes, com uma paciente que está com a confiança abalada."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 2 · O planejamento</p>
+            <p class="scene-text"><b>Fala:</b> "Nesse caso específico, era uma rinoplastia de revisão. O nariz tinha ficado com uma assimetria na ponta após a primeira cirurgia e uma segunda tentativa de correção não havia resolvido. O planejamento exigiu exames de imagem, análise do tecido disponível e uma conversa franca com ela sobre o que era realisticamente possível alcançar."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 3 · A técnica</p>
+            <p class="scene-text"><b>Fala:</b> "Optamos por uma abordagem aberta, com uso de cartilagem da própria paciente retirada da orelha para reconstruir a estrutura da ponta nasal. Isso evita rejeição e garante um resultado mais estável ao longo do tempo."</p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 4 · O resultado</p>
+            <p class="scene-text"><b>Fala:</b> "Com um ano de acompanhamento, o resultado está estabilizado. A assimetria foi corrigida, o perfil ficou equilibrado e ela finalmente encerrou um ciclo que durava quatro anos." <span class="stage">[Mostra o antes e depois com autorização da paciente]</span></p>
+          </div>
+          <div class="scene">
+            <p class="scene-tag">Cena 5 · Encerramento</p>
+            <p class="scene-text"><b>Fala:</b> "Cirurgia de revisão é um dos trabalhos mais complexos que existem na cirurgia plástica. Se você tem um resultado anterior com o qual não ficou satisfeita, me chama. Vamos avaliar o que é possível fazer."</p>
+          </div>
+        </div>
+
+        <div class="inner-divider"></div>
+        <p class="block-title">CTA final</p>
+        <div class="cta-box">
+          <p class="cta-text">"Tem dúvida sobre o seu caso ou sobre cirurgia de revisão? Deixa aqui nos comentários que eu respondo."</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="container">
+    <p class="footer-text">
+      Roteiros criados para <span>Cirurgia Plástica</span> · 10 vídeos com gatilho de retenção<br>
+      Adapte à sua voz e personalidade antes de gravar · Uso exclusivo
+    </p>
+  </div>
+</footer>
+
+<script>
+  function toggle(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+
+  window.addEventListener('scroll', function() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progressBar').style.width = pct + '%';
+  });
+</script>
+</body>
+</html>
