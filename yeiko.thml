@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roteiros — Dr. Yeiko</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13161e;
+    --bg3: #1a1e2a;
+    --border: rgba(255,255,255,0.07);
+    --border-h: rgba(255,255,255,0.13);
+    --text: #c8cdd8;
+    --text-dim: #5a6070;
+    --text-bright: #f0f2f7;
+    --blue: #4f8ef7;
+    --blue-d: rgba(79,142,247,0.12);
+    --green: #3ecf8e;
+    --green-d: rgba(62,207,142,0.12);
+    --orange: #f5a623;
+    --orange-d: rgba(245,166,35,0.12);
+    --red: #e55353;
+    --red-d: rgba(229,83,83,0.12);
+    --purple: #a78bfa;
+    --purple-d: rgba(167,139,250,0.12);
+    --teal: #22d3ee;
+    --teal-d: rgba(34,211,238,0.12);
+    --pink: #f472b6;
+    --pink-d: rgba(244,114,182,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 60px 40px;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: .5px;
+    margin-bottom: 12px;
+  }
+  .eyebrow-dot { width:6px;height:6px;border-radius:50%;background:var(--green); }
+
+  .site-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .site-header h1 span { color: var(--green); }
+  .header-sub { font-size: 14px; color: var(--text-dim); }
+
+  .header-badges { display:flex;flex-wrap:wrap;gap:8px;align-items:center; }
+  .hbadge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid transparent;
+  }
+  .hbadge.green { background:var(--green-d);color:var(--green);border-color:rgba(62,207,142,.2); }
+  .hbadge.blue  { background:var(--blue-d); color:var(--blue); border-color:rgba(79,142,247,.2); }
+  .hbadge.orange{ background:var(--orange-d);color:var(--orange);border-color:rgba(245,166,35,.2); }
+
+  .header-stats {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .stat-item { background:var(--bg3);padding:20px 24px;display:flex;flex-direction:column;gap:4px; }
+  .stat-num { font-size:22px;font-weight:700;color:var(--text-bright); }
+  .stat-label { font-size:11px;color:var(--text-dim); }
+
+  /* ── CONTENT ── */
+  .content-area { padding: 40px 60px; max-width: 1400px; margin: 0 auto; }
+
+  .section-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
+  .section-heading:first-child { margin-top: 0; }
+  .section-heading h2 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+  }
+  .section-heading::after { content:'';flex:1;height:1px;background:var(--border); }
+
+  /* ── GRID ── */
+  .cards-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(520px,1fr));gap:12px;margin-bottom:12px; }
+  .cards-grid.single { grid-template-columns:1fr; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .card:hover { border-color:var(--border-h);box-shadow:0 4px 24px rgba(0,0,0,.3); }
+
+  .card-head {
+    padding: 24px 24px 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .card-num-title { display:flex;align-items:flex-start;gap:16px; }
+  .card-num {
+    font-size:13px;font-weight:700;color:var(--text-dim);
+    background:var(--bg3);border:1px solid var(--border);border-radius:8px;
+    width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+
+  .card-tags { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px; }
+  .tag {
+    font-size:11px;font-weight:500;padding:3px 8px;border-radius:4px;
+    display:flex;align-items:center;gap:4px;
+  }
+  .tag.viral  { background:var(--orange-d);color:var(--orange); }
+  .tag.edu    { background:var(--blue-d);  color:var(--blue);   }
+  .tag.story  { background:var(--purple-d);color:var(--purple); }
+  .tag.inst   { background:var(--teal-d);  color:var(--teal);   }
+  .tag.pessoal{ background:var(--green-d); color:var(--green);  }
+  .tag.humor  { background:var(--pink-d);  color:var(--pink);   }
+  .tag.alerta { background:var(--red-d);   color:var(--red);    }
+  .tag.sug    { background:rgba(120,120,140,.12);color:#9098b0;  }
+
+  .card h3 { font-size:16px;font-weight:600;color:var(--text-bright);line-height:1.4; }
+
+  .card-meta {
+    display:flex;flex-wrap:wrap;gap:16px;
+    padding:0 24px 16px 76px;
+    border-bottom:1px solid var(--border);
+  }
+  .meta-item { display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-dim); }
+  .meta-item strong { color:var(--text);font-weight:500; }
+
+  /* ── ACCORDION ── */
+  .acc-item { border-bottom:1px solid var(--border); }
+  .acc-item:last-child { border-bottom:none; }
+
+  .acc-trigger {
+    width:100%;background:none;border:none;cursor:pointer;
+    padding:16px 24px;display:flex;align-items:center;
+    justify-content:space-between;gap:12px;transition:background .15s;
+  }
+  .acc-trigger:hover { background:rgba(255,255,255,.02); }
+  .acc-trigger-left { display:flex;align-items:center;gap:10px; }
+  .acc-icon { font-size:14px; }
+  .acc-label { font-size:12px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:1px; }
+
+  .acc-arrow {
+    width:20px;height:20px;border-radius:50%;
+    background:var(--bg3);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--text-dim);font-size:12px;font-weight:600;
+    transition:transform .3s, background .2s;flex-shrink:0;
+  }
+  .acc-item.open .acc-arrow {
+    transform:rotate(45deg);
+    background:var(--green-d);border-color:rgba(62,207,142,.3);color:var(--green);
+  }
+
+  .acc-body { display:none;padding:0 24px 20px;animation:accFade .25s ease; }
+  .acc-item.open .acc-body { display:block; }
+  @keyframes accFade { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── BLOCKS ── */
+  .hook-label { font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px; }
+
+  .hook-block {
+    background:rgba(62,207,142,.06);
+    border:1px solid rgba(62,207,142,.15);
+    border-left:3px solid var(--green);
+    border-radius:0 8px 8px 0;
+    padding:14px 18px;
+    font-size:15px;color:var(--text-bright);
+    line-height:1.6;font-style:italic;
+  }
+
+  .script-block {
+    background:var(--bg3);border:1px solid var(--border);
+    border-radius:8px;padding:16px 18px;
+  }
+  .script-block p { font-size:13.5px;line-height:1.75;color:var(--text);font-weight:300;margin-bottom:10px; }
+  .script-block p:last-child { margin-bottom:0; }
+  .script-block strong { color:var(--text-bright);font-weight:600; }
+
+  .script-quote {
+    border-left:2px solid var(--purple);
+    padding-left:12px;
+    font-size:14px;color:var(--purple);
+    font-style:italic;line-height:1.6;margin:10px 0;
+  }
+
+  .humor-box {
+    background:var(--pink-d);
+    border:1px solid rgba(244,114,182,.2);
+    border-radius:8px;padding:14px 18px;
+    font-size:13.5px;line-height:1.75;color:var(--text-bright);font-weight:300;
+  }
+  .humor-box strong { color:var(--pink);font-weight:600; }
+
+  .pillars { display:flex;flex-direction:column;gap:10px;margin-top:4px; }
+  .pillar {
+    background:var(--bg);border:1px solid var(--border);
+    border-radius:8px;padding:12px 16px;
+    display:flex;gap:12px;align-items:flex-start;
+  }
+  .pillar-num {
+    width:24px;height:24px;
+    background:var(--blue-d);border:1px solid rgba(79,142,247,.2);
+    border-radius:6px;font-size:11px;font-weight:700;color:var(--blue);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .pillar-title { font-size:13px;font-weight:600;color:var(--text-bright);margin-bottom:3px; }
+  .pillar-desc  { font-size:12.5px;line-height:1.6;color:var(--text);font-weight:300; }
+
+  .cta-block {
+    background:rgba(62,207,142,.06);
+    border:1px solid rgba(62,207,142,.15);
+    border-radius:8px;padding:14px 18px;
+  }
+  .cta-label { font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px; }
+  .cta-block p { font-size:13.5px;line-height:1.7;color:var(--text-bright);font-style:italic; }
+
+  .prod-block {
+    background:var(--purple-d);border:1px solid rgba(167,139,250,.15);
+    border-radius:8px;padding:14px 18px;
+  }
+  .prod-label { font-size:10px;font-weight:600;color:var(--purple);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px; }
+  .prod-block p { font-size:13px;line-height:1.7;color:var(--text);font-weight:300; }
+
+  .tip-box {
+    background:var(--orange-d);border:1px solid rgba(245,166,35,.18);
+    border-radius:8px;padding:14px 18px;margin-top:10px;
+  }
+  .tip-label { font-size:10px;font-weight:600;color:var(--orange);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px; }
+  .tip-box p { font-size:13px;line-height:1.7;color:var(--text);font-weight:300; }
+
+  .spacer { height:10px; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top:1px solid var(--border);padding:28px 60px;
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:12px;background:var(--bg2);
+  }
+  .footer-left { font-size:13px;color:var(--text-dim); }
+  .footer-left strong { color:var(--text); }
+  .footer-right { font-size:11px;color:var(--text-dim); }
+
+  @media(max-width:768px){
+    .site-header,.content-area,footer{padding-left:20px;padding-right:20px;}
+    .cards-grid{grid-template-columns:1fr;}
+    .header-stats{grid-template-columns:repeat(2,1fr);}
+    .card-meta{padding-left:24px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<div class="site-header">
+  <div class="header-top">
+    <div>
+      <div class="eyebrow">
+        <div class="eyebrow-dot"></div>
+        Medicina Esportiva e Performance · Conteúdo Instagram
+      </div>
+      <h1>Roteiros <span>Dr. Yeiko</span></h1>
+      <p class="header-sub">8 roteiros para Reels e vídeos de alta performance</p>
+    </div>
+    <div class="header-badges">
+      <div class="hbadge green">⚡ Performance e Emagrecimento</div>
+      <div class="hbadge blue">🎬 8 Vídeos</div>
+      <div class="hbadge orange">📱 Reels / Instagram</div>
+    </div>
+  </div>
+  <div class="header-stats">
+    <div class="stat-item">
+      <div class="stat-num">8</div>
+      <div class="stat-label">Roteiros prontos</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Relatos de pacientes</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Educativos técnicos</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Vídeo viral humor</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONTENT ── -->
+<div class="content-area">
+
+  <div class="section-heading">
+    <h2>🎯 Relatos e Histórias de Pacientes</h2>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- ══ VÍDEO 1 ══ -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-num-title">
+          <div class="card-num">01</div>
+          <div class="card-title-area">
+            <div class="card-tags">
+              <span class="tag story">📖 Storytelling</span>
+              <span class="tag pessoal">💛 Conexão</span>
+              <span class="tag viral">🔥 Dia das Mães</span>
+            </div>
+            <h3>Ana e sua mãe — o presente que veio da transformação</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item">📱 <strong>Reels</strong></div>
+        <div class="meta-item">⏱ <strong>75 a 90s</strong></div>
+        <div class="meta-item">🎥 <strong>Tom emocional, bastidores da consulta</strong></div>
+        <div class="meta-item">📅 <strong>Publicar próximo ao Dia das Mães</strong></div>
+      </div>
+      <div class="accordion">
+
+        <div class="acc-item open">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">⚡</span><span class="acc-label">Hook</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="hook-label">Tom emocional, câmera no consultório</div>
+            <div class="hook-block">"A Ana perdeu 20 quilos comigo. Aí ela me ligou e falou: Doutor, quero presentear alguém muito especial. E quando eu soube quem era... eu não consegui segurar o sorriso."</div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">🎬</span><span class="acc-label">Roteiro Completo</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="script-block">
+              <p>"A Ana chegou aqui no consultório há alguns meses. Ela estava cansada de tentar. Dieta, remédio por conta própria, aquela montanha-russa de perder e recuperar. Ela não estava buscando um número na balança. Ela queria se sentir bem de novo."</p>
+              <p>"Montamos um protocolo individualizado pra ela. Exames detalhados, composição corporal, ajuste metabólico. E ela foi fundo. Com disciplina, com acompanhamento, com confiança no processo."</p>
+              <p>"Vinte quilos depois, ela me ligou com uma missão: queria presentear a mãe dela com o mesmo tratamento no Dia das Mães."</p>
+              <div class="script-quote">"Doutor, a minha mãe merece se sentir assim também. O melhor presente que eu posso dar pra ela é a saúde que eu encontrei aqui."</div>
+              <p>"Eu não sei se existe presente mais bonito do que esse. Não é perfume. Não é bolsa. É saúde. É autoestima. É a filha que quer ver a mãe bem."</p>
+              <p>"Mãe da Ana, seja bem-vinda. A gente vai cuidar muito bem de você."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">📣</span><span class="acc-label">CTA Final</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="cta-block">
+              <div class="cta-label">Fechamento</div>
+              <p>"Se você tem alguém especial que merece esse presente, fala comigo. Link na bio para agendar a avaliação."</p>
+            </div>
+            <div class="spacer"></div>
+            <div class="prod-block">
+              <div class="prod-label">Dica de Produção</div>
+              <p>Se possível, gravar um momento da chegada da mãe da Ana ao consultório, mesmo que só mostre a recepção ou o abraço. Autenticidade converte muito mais do que encenação. Use texto na tela: "20kg perdidos em X meses" e "Presente de Dia das Mães" para dar contexto visual rápido.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ VÍDEO 2 ══ -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-num-title">
+          <div class="card-num">02</div>
+          <div class="card-title-area">
+            <div class="card-tags">
+              <span class="tag story">📖 Prova Social</span>
+              <span class="tag pessoal">💛 Conexão</span>
+            </div>
+            <h3>Miriam — 10kg a menos e uma vida diferente</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item">📱 <strong>Reels ou entrevista</strong></div>
+        <div class="meta-item">⏱ <strong>60 a 80s</strong></div>
+        <div class="meta-item">🎥 <strong>Consultório ou depoimento direto da paciente</strong></div>
+      </div>
+      <div class="accordion">
+
+        <div class="acc-item open">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">⚡</span><span class="acc-label">Hook</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="hook-block">"A Miriam me disse uma coisa que poucos falam com essa honestidade. Ela disse: eu não queria ser magra. Eu queria parar de sentir vergonha de mim mesma."</div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">🎬</span><span class="acc-label">Roteiro Completo</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="script-block">
+              <p>"A Miriam chegou com uma história que eu ouço com frequência: anos tentando emagrecer, muita frustração acumulada e uma desconfiança genuína de que qualquer coisa pudesse funcionar pra ela."</p>
+              <p>"O que a gente fez de diferente? Primeiro, entendemos o metabolismo dela de verdade. Exames que vão além do básico: resistência à insulina, perfil hormonal, inflamação sistêmica. O problema dela não era falta de força de vontade. Era biologia."</p>
+              <p>"Com um protocolo personalizado, acompanhamento próximo e ajuste ao longo do tempo, a Miriam perdeu 10 quilos. Mas o que ela me disse na última consulta foi o que ficou:"</p>
+              <div class="script-quote">"Doutor, eu me olhei no espelho essa semana e gostei do que vi. Faz anos que isso não acontecia."</div>
+              <p>"Dez quilos. Mas o que mudou de verdade foi muito mais do que isso."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">📣</span><span class="acc-label">CTA Final</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="cta-block">
+              <div class="cta-label">Fechamento</div>
+              <p>"Você se identifica com a história da Miriam? Me conta nos comentários. E se quiser começar o seu protocolo, link na bio para agendar."</p>
+            </div>
+            <div class="spacer"></div>
+            <div class="prod-block">
+              <div class="prod-label">Formato Ideal</div>
+              <p>Se a Miriam topar aparecer, um depoimento curto dela de 20 a 30 segundos intercalado com sua narração é ouro em prova social. Se não, use antes e depois com autorização por escrito e narração em off.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ VÍDEO 3 FULL ══ -->
+  <div class="cards-grid single">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-num-title">
+          <div class="card-num">03</div>
+          <div class="card-title-area">
+            <div class="card-tags">
+              <span class="tag pessoal">💛 Bastidores</span>
+              <span class="tag viral">🔥 Jornada</span>
+              <span class="tag edu">🧠 Expectativa real</span>
+            </div>
+            <h3>Rayane está começando — o primeiro passo de uma jornada real</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item">📱 <strong>Reels de bastidor</strong></div>
+        <div class="meta-item">⏱ <strong>50 a 70s</strong></div>
+        <div class="meta-item">🎥 <strong>Consulta inicial, tom de expectativa e realidade</strong></div>
+      </div>
+      <div class="accordion">
+
+        <div class="acc-item open">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">⚡</span><span class="acc-label">Hook</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="hook-label">Tom de bastidor, câmera no consultório</div>
+            <div class="hook-block">"Hoje é o primeiro dia da Rayane. E esse vídeo vai ser diferente dos outros: sem resultado ainda. Só o começo."</div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">🎬</span><span class="acc-label">Roteiro Completo</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="script-block">
+              <p>"Eu gosto de mostrar os inícios. Porque é no início que a maioria das pessoas desiste antes de começar. O medo de que não vai funcionar. A dúvida de que o próprio corpo vai responder."</p>
+              <p>"A Rayane chegou aqui hoje. Fizemos a avaliação completa: composição corporal, exames laboratoriais, histórico de saúde. E a gente traçou juntos o protocolo dela."</p>
+              <p>"O que eu disse pra ela é o mesmo que digo pra todos os meus pacientes no primeiro dia: resultado não vem em uma semana. Vem de consistência, de confiança no processo e de um protocolo que foi feito pra ela, não pra qualquer um."</p>
+              <div class="script-quote">"Rayane, a gente vai chegar lá."</div>
+              <p>"Salva esse vídeo. Daqui a alguns meses, você vai querer ver de onde ela começou."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">📣</span><span class="acc-label">CTA Final</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="cta-block">
+              <div class="cta-label">Engajamento</div>
+              <p>"Você está no início de alguma jornada agora? Me conta nos comentários. Ativa o sininho pra acompanhar a evolução da Rayane por aqui."</p>
+            </div>
+            <div class="spacer"></div>
+            <div class="tip-box">
+              <div class="tip-label">Estratégia de Conteúdo</div>
+              <p>Esse vídeo é o início de uma mini-série. Documente a Rayane a cada mês com um update de 30 segundos. Esse formato gera muito retorno e aumenta seguidores fiéis que acompanham a evolução dela como uma novela real.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading" style="margin-top:48px">
+    <h2>😂 Humor e Tendências</h2>
+  </div>
+
+  <!-- ══ VÍDEO 4 ══ -->
+  <div class="cards-grid single">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-num-title">
+          <div class="card-num">04</div>
+          <div class="card-title-area">
+            <div class="card-tags">
+              <span class="tag humor">😂 Humor</span>
+              <span class="tag viral">🔥 Trend</span>
+              <span class="tag edu">🧠 Educativo</span>
+            </div>
+            <h3>Reação às novelas de fruta — Morango aplica Mounjaro no marido enquanto ele dorme</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item">📱 <strong>Reels de reação</strong></div>
+        <div class="meta-item">⏱ <strong>45 a 60s</strong></div>
+        <div class="meta-item">🎥 <strong>Tela do celular com o vídeo da trend + reação ao vivo</strong></div>
+      </div>
+      <div class="accordion">
+
+        <div class="acc-item open">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">⚡</span><span class="acc-label">Hook</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="hook-label">Mostrar o vídeo da fruta na tela e reagir ao vivo</div>
+            <div class="hook-block">"Gente, um morango acabou de me fazer ter uma reunião de emergência comigo mesmo."</div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">🎬</span><span class="acc-label">Roteiro de Reação</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="humor-box">
+              <p><strong>[CENA 1]</strong> Mostrar o vídeo da trend na tela: Morango aplica Mounjaro no marido enquanto ele dorme. Reação de espanto genuíno.</p>
+              <p style="margin-top:10px"><strong>[CENA 2]</strong> Expressão de médico horrorizado mas tentando manter a calma.</p>
+              <p style="margin-top:10px">"Tá. Antes de mais nada... parabéns pela animação. Ficou muito bem-feito."</p>
+              <p style="margin-top:10px">"Agora, como médico, preciso dizer algumas coisas."</p>
+              <p style="margin-top:10px">"<strong>Primeiro:</strong> ninguém aplica Mounjaro em ninguém enquanto a pessoa dorme. Nem morango. Nem humano. Nem médico."</p>
+              <p style="margin-top:10px">"<strong>Segundo:</strong> o Mounjaro não é uma seringa que você pega na prateleira. É um medicamento com prescrição, com indicação, com exame pré e com acompanhamento contínuo."</p>
+              <p style="margin-top:10px">"<strong>Terceiro:</strong> eu entendo que vocês querem resultados rápidos. Mas o caminho certo existe, ele funciona e ele não envolve aplicar nada no marido dormindo."</p>
+              <p style="margin-top:10px">Pausa. Olha pra câmera com um sorriso.</p>
+              <p style="margin-top:10px">"Mas confesso que o morango tinha técnica. Eu precisava dizer isso."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">📣</span><span class="acc-label">CTA Final</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="cta-block">
+              <div class="cta-label">Fechamento com humor</div>
+              <p>"Se você ou alguém que você ama quer começar o tratamento de verdade, sem morango intermediário, link na bio. Me chama."</p>
+              <p style="margin-top:8px">💬 CTA de engajamento: "Manda esse vídeo pro seu cônjuge antes que o morango apareça primeiro."</p>
+            </div>
+            <div class="spacer"></div>
+            <div class="prod-block">
+              <div class="prod-label">Dica de Produção</div>
+              <p>Use o recurso de tela dividida ou coloca o vídeo da fruta em loop atrás enquanto você fala. Legendas rápidas e bem animadas para cada ponto. Tom leve o tempo todo. O humor que converte é o que ensina enquanto faz rir.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading" style="margin-top:48px">
+    <h2>🧠 Educativos Técnicos</h2>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- ══ VÍDEO 5 ══ -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-num-title">
+          <div class="card-num">05</div>
+          <div class="card-title-area">
+            <div class="card-tags">
+              <span class="tag edu">🧠 Educativo</span>
+              <span class="tag inst">🔬 Técnico</span>
+            </div>
+            <h3>Implantes hormonais — Quando, como e por que aplicar?</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item">📱 <strong>Reels educativo</strong></div>
+        <div class="meta-item">⏱ <strong>75 a 90s</strong></div>
+        <div class="meta-item">🎥 <strong>Consultório, jaleco, tom de autoridade acessível</strong></div>
+      </div>
+      <div class="accordion">
+
+        <div class="acc-item open">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">⚡</span><span class="acc-label">Hook</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="hook-block">"Você sente cansaço constante, queda de libido, dificuldade de ganhar músculo ou emagrecer mesmo com disciplina? O problema pode não ser falta de esforço. Pode ser hormônio."</div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">🎬</span><span class="acc-label">Roteiro Completo</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="script-block">
+              <p>"Os implantes hormonais são pequenos cilindros biocompatíveis inseridos sob a pele, geralmente na região glútea, que liberam hormônios de forma lenta e contínua por três a seis meses."</p>
+              <p>"<strong>Por que implante e não creme, injeção ou comprimido?</strong> Porque a liberação é estável. Sem os picos e quedas que outros métodos geram. Isso significa humor mais equilibrado, energia mais constante e resultados mais previsíveis."</p>
+            </div>
+            <div class="spacer"></div>
+            <div class="pillars">
+              <div class="pillar">
+                <div class="pillar-num">1</div>
+                <div class="pillar-content">
+                  <div class="pillar-title">Quando indicar</div>
+                  <div class="pillar-desc">Sintomas de deficiência hormonal confirmados por exame: testosterona baixa em homens e mulheres, menopausa e climatério, baixa libido, fadiga crônica, sarcopenia e dificuldade de composição corporal.</div>
+                </div>
+              </div>
+              <div class="pillar">
+                <div class="pillar-num">2</div>
+                <div class="pillar-content">
+                  <div class="pillar-title">Como é o procedimento</div>
+                  <div class="pillar-desc">Pequena incisão com anestesia local na região glútea. Implante inserido sob a pele com um trocar. Procedimento rápido, ambulatorial, sem necessidade de internação. A pessoa sai andando e volta às atividades no mesmo dia.</div>
+                </div>
+              </div>
+              <div class="pillar">
+                <div class="pillar-num">3</div>
+                <div class="pillar-content">
+                  <div class="pillar-title">Por que funciona tão bem</div>
+                  <div class="pillar-desc">A liberação contínua imita a fisiologia natural do organismo. Sem pico matinal, sem queda noturna. O corpo recebe o hormônio no ritmo certo, o que potencializa ganho de massa, redução de gordura, disposição e qualidade de vida.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">📣</span><span class="acc-label">CTA Final</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="cta-block">
+              <div class="cta-label">Fechamento</div>
+              <p>"Implante hormonal não é modinha. É medicina baseada em evidência aplicada com critério. Se você tem esses sintomas, agenda uma avaliação. Link na bio."</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ VÍDEO 6 ══ -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-num-title">
+          <div class="card-num">06</div>
+          <div class="card-title-area">
+            <div class="card-tags">
+              <span class="tag edu">🧠 Educativo</span>
+              <span class="tag viral">🔥 Evergreen</span>
+            </div>
+            <h3>Suplementação de vitaminas — O que você provavelmente está tomando errado</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item">📱 <strong>Reels educativo</strong></div>
+        <div class="meta-item">⏱ <strong>70 a 85s</strong></div>
+        <div class="meta-item">🎥 <strong>Consultório ou estúdio clean</strong></div>
+      </div>
+      <div class="accordion">
+
+        <div class="acc-item open">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">⚡</span><span class="acc-label">Hook</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="hook-block">"Vitamina D sem magnésio. Ferro sem vitamina C. Ômega-3 no momento errado. A maioria das pessoas suplementa. Pouca gente suplementa certo."</div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">🎬</span><span class="acc-label">Roteiro Completo</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="script-block">
+              <p>"Suplementação sem exame é chute. E chute no escuro tem duas consequências: ou você joga dinheiro fora porque seu nível já está bom, ou você suplementa a coisa errada e o problema real fica sem solução."</p>
+              <p>"Deixa eu te dar três pontos que fazem toda a diferença:"</p>
+            </div>
+            <div class="spacer"></div>
+            <div class="pillars">
+              <div class="pillar">
+                <div class="pillar-num">1</div>
+                <div class="pillar-content">
+                  <div class="pillar-title">Vitamina D exige magnésio</div>
+                  <div class="pillar-desc">A conversão da vitamina D na forma ativa depende de magnésio. Quem toma D sem magnésio pode ter absorção comprometida. Cerca de 60% dos brasileiros têm deficiência de magnésio sem saber.</div>
+                </div>
+              </div>
+              <div class="pillar">
+                <div class="pillar-num">2</div>
+                <div class="pillar-content">
+                  <div class="pillar-title">O horário importa</div>
+                  <div class="pillar-desc">Vitaminas lipossolúveis como D, A, E e K são absorvidas melhor com gordura boa na refeição. Ômega-3 junto com a refeição. Ferro em jejum ou longe de laticínios. Probióticos em jejum ou antes de dormir.</div>
+                </div>
+              </div>
+              <div class="pillar">
+                <div class="pillar-num">3</div>
+                <div class="pillar-content">
+                  <div class="pillar-title">Exame antes de suplementar</div>
+                  <div class="pillar-desc">Vitamina D, B12, ferro sérico, ferritina e magnésio eritrocitário são os mais negligenciados. Qualquer protocolo de suplementação começa com exame, não com achismo.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">📣</span><span class="acc-label">CTA Final</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="cta-block">
+              <div class="cta-label">Fechamento</div>
+              <p>"Quer saber o que você realmente precisa suplementar? Começa pelo exame certo. Me chama no direct ou acessa o link na bio para agendar sua avaliação."</p>
+              <p style="margin-top:8px">💬 Engajamento: "Comenta aqui qual vitamina você toma. Vou responder com uma dica pra cada."</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-heading" style="margin-top:48px">
+    <h2>💡 Sugestões — Temas em Alta</h2>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- ══ VÍDEO 7 ══ -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-num-title">
+          <div class="card-num">07</div>
+          <div class="card-title-area">
+            <div class="card-tags">
+              <span class="tag alerta">⚠️ Urgente</span>
+              <span class="tag edu">🧠 Educativo</span>
+              <span class="tag sug">✨ Sugestão</span>
+            </div>
+            <h3>"O que acontece com seu corpo quando você para o Ozempic?"</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item">📱 <strong>Reels educativo</strong></div>
+        <div class="meta-item">⏱ <strong>60 a 75s</strong></div>
+        <div class="meta-item">🔥 <strong>Tema em altíssima busca agora</strong></div>
+      </div>
+      <div class="accordion">
+
+        <div class="acc-item open">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">⚡</span><span class="acc-label">Hook Sugerido</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="hook-block">"Todo mundo fala sobre começar o Ozempic. Quase ninguém fala sobre o que acontece quando você para. E isso é exatamente o que você precisa saber antes de começar."</div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">🎬</span><span class="acc-label">Temas a Abordar</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="pillars">
+              <div class="pillar">
+                <div class="pillar-num">1</div>
+                <div class="pillar-content">
+                  <div class="pillar-title">O efeito rebote existe</div>
+                  <div class="pillar-desc">Estudos mostram que boa parte do peso perdido é recuperada nos meses seguintes à suspensão sem protocolo de manutenção. Por quê e como evitar.</div>
+                </div>
+              </div>
+              <div class="pillar">
+                <div class="pillar-num">2</div>
+                <div class="pillar-content">
+                  <div class="pillar-title">O que muda no metabolismo</div>
+                  <div class="pillar-desc">Com a retirada do GLP-1 externo, o apetite volta, a saciedade cai e a motivação pode reduzir. O corpo precisa de uma estratégia de saída bem planejada.</div>
+                </div>
+              </div>
+              <div class="pillar">
+                <div class="pillar-num">3</div>
+                <div class="pillar-content">
+                  <div class="pillar-title">A saída existe e é possível</div>
+                  <div class="pillar-desc">Com protocolo de desmame gradual, manutenção muscular, ajuste alimentar e acompanhamento médico, a suspensão segura existe. Mas ela precisa ser planejada, não abrupta.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">📣</span><span class="acc-label">CTA</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="cta-block">
+              <div class="cta-label">Fechamento</div>
+              <p>"Você usa ou já usou semaglutida? Me conta nos comentários como foi a sua experiência. E se você quer um protocolo de verdade, link na bio."</p>
+            </div>
+            <div class="spacer"></div>
+            <div class="tip-box">
+              <div class="tip-label">Por que esse tema converte</div>
+              <p>É a principal dúvida de quem já está em tratamento e de quem está pensando em começar. Vídeos assim têm altíssimo índice de salvamento e compartilhamento por identificação direta.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ VÍDEO 8 ══ -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-num-title">
+          <div class="card-num">08</div>
+          <div class="card-title-area">
+            <div class="card-tags">
+              <span class="tag viral">🔥 Tabu</span>
+              <span class="tag edu">🧠 Educativo</span>
+              <span class="tag sug">✨ Sugestão</span>
+            </div>
+            <h3>"Testosterona em mulheres: o tabu que ninguém explica direito"</h3>
+          </div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <div class="meta-item">📱 <strong>Reels educativo</strong></div>
+        <div class="meta-item">⏱ <strong>65 a 80s</strong></div>
+        <div class="meta-item">🔥 <strong>Público feminino em altíssima busca</strong></div>
+      </div>
+      <div class="accordion">
+
+        <div class="acc-item open">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">⚡</span><span class="acc-label">Hook Sugerido</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="hook-block">"Testosterona não é hormônio de homem. Nunca foi. E a deficiência dela em mulheres é uma das causas mais subestimadas de cansaço, queda de libido e dificuldade de emagrecer."</div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">🎬</span><span class="acc-label">Temas a Abordar</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="pillars">
+              <div class="pillar">
+                <div class="pillar-num">1</div>
+                <div class="pillar-content">
+                  <div class="pillar-title">Mulher produz testosterona</div>
+                  <div class="pillar-desc">O ovário e a adrenal produzem testosterona naturalmente. Ela é essencial para energia, humor, libido, ganho de massa e queima de gordura. Quando cai, o corpo sente.</div>
+                </div>
+              </div>
+              <div class="pillar">
+                <div class="pillar-num">2</div>
+                <div class="pillar-content">
+                  <div class="pillar-title">Sintomas ignorados</div>
+                  <div class="pillar-desc">Cansaço sem causa aparente, perda de motivação, dificuldade de perder gordura mesmo comendo pouco e malhando, queda de libido e até depressão leve podem ser sinais de testosterona baixa.</div>
+                </div>
+              </div>
+              <div class="pillar">
+                <div class="pillar-num">3</div>
+                <div class="pillar-content">
+                  <div class="pillar-title">Tratamento existe e é seguro</div>
+                  <div class="pillar-desc">Com dosagem correta e monitoramento médico, a reposição de testosterona em mulheres é segura, eficaz e transforma a qualidade de vida. Não masculiniza. Não provoca efeitos colaterais quando feita do jeito certo.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggle(this)">
+            <div class="acc-trigger-left"><span class="acc-icon">📣</span><span class="acc-label">CTA</span></div>
+            <div class="acc-arrow">+</div>
+          </button>
+          <div class="acc-body">
+            <div class="cta-block">
+              <div class="cta-label">Fechamento</div>
+              <p>"Você tem algum desses sintomas? Antes de aceitar que é normal, faz o exame certo. Me chama no direct ou agenda pelo link na bio."</p>
+              <p style="margin-top:8px">💬 Engajamento: "Manda esse vídeo pra uma amiga que reclama de cansaço o tempo todo. Pode ser a resposta que ela precisava."</p>
+            </div>
+            <div class="spacer"></div>
+            <div class="tip-box">
+              <div class="tip-label">Por que esse tema viraliza</div>
+              <p>Alta identificação com público feminino de 30 a 55 anos, que é o público que mais consome conteúdo de saúde no Instagram. Quebra de tabu mais compartilhamento por identificação. Potencial de viralizar por surpresa da informação.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DICA GERAL -->
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:28px 32px;margin-top:32px;display:flex;gap:20px;align-items:flex-start;">
+    <div style="font-size:28px;line-height:1">💡</div>
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--orange);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px">Dica de Produção Geral</div>
+      <p style="font-size:13.5px;line-height:1.8;color:var(--text);font-weight:300">Priorize <strong style="color:var(--text-bright)">legendas sempre ativas</strong> em todos os vídeos pois mais de 70% são assistidos sem som. Para os relatos de pacientes, se possível grave depoimento real em vídeo vertical de 20 a 30 segundos intercalado com sua narração. Para vídeos técnicos use texto na tela com os pontos principais aparecendo conforme fala. Para o vídeo de humor use cortes rápidos e expressões genuínas. Autenticidade converte mais do que produção perfeita.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-left"><strong>Dr. Yeiko</strong> · Medicina de Performance e Emagrecimento</div>
+  <div class="footer-right">8 roteiros para Instagram · Reels e vídeos de alta performance</div>
+</footer>
+
+<script>
+  function toggle(btn) {
+    btn.closest('.acc-item').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
