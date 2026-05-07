@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roteiros Collab – Dr. Yeiko x Nutri</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #141720;
+    --surface2: #1c2030;
+    --accent: #3b82f6;
+    --accent2: #06b6d4;
+    --accent3: #f59e0b;
+    --text: #e8eaf0;
+    --muted: #7c86a0;
+    --border: #252a3a;
+    --danger: #ef4444;
+    --success: #10b981;
+    --nutri: #f472b6;
+    --medico: #60a5fa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; line-height: 1.6; }
+
+  .header {
+    background: linear-gradient(135deg, #0d0f14, #0f172a, #0d0f14);
+    border-bottom: 1px solid var(--border);
+    padding: 36px 24px 28px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 200px;
+    background: radial-gradient(ellipse, rgba(59,130,246,0.15) 0%, transparent 70%);
+  }
+  .header-tag {
+    display: inline-block;
+    background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3);
+    color: var(--accent2); font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
+  }
+  .header h1 { font-family: 'Syne', sans-serif; font-size: clamp(22px, 5vw, 40px); font-weight: 800; color: #fff; letter-spacing: -1px; }
+  .header h1 .blue { color: #60a5fa; }
+  .header h1 .pink { color: #f472b6; }
+  .collab-badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+  .collab-badge {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 8px 16px; font-size: 13px;
+  }
+  .badge-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .badge-medico { background: var(--medico); }
+  .badge-nutri { background: var(--nutri); }
+  .header-meta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+  .meta-chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 5px 14px; font-size: 12px; color: var(--muted); }
+  .meta-chip strong { color: var(--text); }
+
+  .container { max-width: 880px; margin: 0 auto; padding: 28px 18px 60px; }
+
+  /* HOOK TYPE LEGEND */
+  .legend {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px;
+  }
+  .legend-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); width: 100%; margin-bottom: 6px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+  .legend-icon { font-size: 14px; }
+
+  /* CARDS */
+  .script-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 22px; overflow: hidden; transition: border-color 0.25s; }
+  .script-card:hover { border-color: rgba(59,130,246,0.35); }
+
+  .card-header { display: flex; align-items: center; gap: 14px; padding: 18px 22px; cursor: pointer; user-select: none; transition: background 0.2s; }
+  .card-header:hover { background: var(--surface2); }
+
+  .num-badge { min-width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+  .card-title-wrap { flex: 1; }
+  .card-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; line-height: 1.3; }
+  .card-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .card-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
+  .tag { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 7px; border-radius: 5px; }
+  .tag-viral { background: rgba(59,130,246,0.15); color: #93c5fd; }
+  .tag-edu { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+  .tag-alerta { background: rgba(239,68,68,0.15); color: #fca5a5; }
+  .tag-lista { background: rgba(245,158,11,0.15); color: #fcd34d; }
+  .tag-promessa { background: rgba(139,92,246,0.15); color: #c4b5fd; }
+  .tag-collab { background: rgba(244,63,94,0.1); color: #fb7185; }
+
+  .toggle-btn { width: 26px; height: 26px; border-radius: 7px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; flex-shrink: 0; }
+  .script-card.open .toggle-btn { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .card-body { display: none; padding: 4px 22px 22px; border-top: 1px solid var(--border); animation: fadeIn 0.2s ease; }
+  .script-card.open .card-body { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section { margin-top: 18px; }
+  .section-label { display: flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; padding-bottom: 7px; border-bottom: 1px solid var(--border); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  /* HOOK TYPES */
+  .hook-box-lista {
+    background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(251,191,36,0.05));
+    border: 1px solid rgba(245,158,11,0.25); border-left: 3px solid var(--accent3);
+    border-radius: 10px; padding: 14px 16px;
+  }
+  .hook-box-promessa {
+    background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(167,139,250,0.05));
+    border: 1px solid rgba(139,92,246,0.25); border-left: 3px solid #8b5cf6;
+    border-radius: 10px; padding: 14px 16px;
+  }
+  .hook-type-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+  }
+  .hook-text { font-size: 14px; font-style: italic; color: #c7d0e8; line-height: 1.65; }
+  .hook-text strong { font-style: normal; }
+
+  /* DIALOGUE */
+  .dialogue { display: flex; flex-direction: column; gap: 12px; }
+  .fala {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 12px 14px; border-radius: 10px;
+  }
+  .fala-medico { background: rgba(96,165,250,0.07); border: 1px solid rgba(96,165,250,0.15); }
+  .fala-nutri { background: rgba(244,114,182,0.07); border: 1px solid rgba(244,114,182,0.15); }
+  .speaker-badge {
+    font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; white-space: nowrap;
+  }
+  .speaker-badge.medico { background: rgba(96,165,250,0.15); color: #93c5fd; }
+  .speaker-badge.nutri { background: rgba(244,114,182,0.15); color: #f9a8d4; }
+  .fala-text { font-size: 13.5px; color: #b8c0d8; line-height: 1.75; }
+  .fala-text ul { margin-top: 6px; padding-left: 16px; }
+  .fala-text li { margin-bottom: 3px; }
+
+  .cta-box { background: rgba(16,185,129,0.07); border: 1px solid rgba(16,185,129,0.18); border-left: 3px solid var(--success); border-radius: 10px; padding: 12px 16px; font-size: 13px; color: #a7f3d0; line-height: 1.6; margin-top: 4px; }
+  .tip-box { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.18); border-left: 3px solid var(--accent3); border-radius: 10px; padding: 12px 16px; font-size: 12.5px; color: #fde68a; line-height: 1.6; margin-top: 14px; }
+  .tip-box strong { display: block; margin-bottom: 3px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent3); }
+
+  .timer-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.25); border-radius: 20px; padding: 3px 10px; font-size: 11px; color: #c4b5fd; font-weight: 600; margin-bottom: 4px; margin-top: 14px; }
+
+  /* TEMAS */
+  .t1 .num-badge { background: rgba(6,182,212,0.15); color: #22d3ee; }
+  .t2 .num-badge { background: rgba(239,68,68,0.15); color: #f87171; }
+  .t3 .num-badge { background: rgba(16,185,129,0.15); color: #34d399; }
+  .t4 .num-badge { background: rgba(245,158,11,0.15); color: #fbbf24; }
+  .t5 .num-badge { background: rgba(139,92,246,0.15); color: #a78bfa; }
+  .t6 .num-badge { background: rgba(244,114,182,0.15); color: #f472b6; }
+
+  .footer { text-align: center; padding: 20px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); }
+
+  @media (max-width: 520px) {
+    .fala { flex-direction: column; gap: 6px; }
+    .speaker-badge { align-self: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">🎬 Collab Reels</div>
+  <h1><span class="blue">Dr. Yeiko</span> <span style="color:var(--muted);font-weight:400">×</span> <span class="pink">Nutri Luana</span></h1>
+  <div class="collab-badges">
+    <div class="collab-badge"><span class="badge-dot badge-medico"></span> <span>Médico fala primeiro</span></div>
+    <div class="collab-badge"><span class="badge-dot badge-nutri"></span> <span>Nutri conecta e aprofunda</span></div>
+  </div>
+  <div class="header-meta">
+    <div class="meta-chip">⏱️ <strong>30–60 seg</strong></div>
+    <div class="meta-chip">📋 <strong>6 Temas</strong></div>
+    <div class="meta-chip">🎯 <strong>Hooks variados</strong></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="legend">
+    <div class="legend-title">Tipos de Hook usados neste documento</div>
+    <div class="legend-item"><span class="legend-icon">📋</span> Hook em Lista — gera curiosidade imediata e retenção visual</div>
+    <div class="legend-item"><span class="legend-icon">💥</span> Hook Promessa — faz o público parar o scroll por querer a resposta</div>
+  </div>
+
+  <!-- TEMA 1 -->
+  <div class="script-card t1" id="t1">
+    <div class="card-header" onclick="toggle('t1')">
+      <div class="num-badge">01</div>
+      <div class="card-title-wrap">
+        <div class="card-title">Caneta emagrecedora: milagre ou ferramenta?</div>
+        <div class="card-tags">
+          <span class="tag tag-edu">🧠 Educativo</span>
+          <span class="tag tag-promessa">💥 Promessa</span>
+          <span class="tag tag-collab">👥 Collab</span>
+        </div>
+      </div>
+      <div class="toggle-btn">+</div>
+    </div>
+    <div class="card-body">
+      <div class="timer-badge">⏱️ ~55 segundos</div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#22d3ee"></span> HOOK — 💥 PROMESSA (primeiros 3 seg)</div>
+        <div class="hook-box-promessa">
+          <div class="hook-type-label" style="color:#a78bfa">💥 Promessa</div>
+          <div class="hook-text">
+            <strong>[MÉDICO na tela, olhando direto pra câmera]</strong><br><br>
+            "A caneta emagrecedora não é milagre. Mas usada do jeito certo, muda tudo. Deixa eu te explicar."
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#22d3ee"></span> ROTEIRO</div>
+        <div class="dialogue">
+          <div class="fala fala-medico">
+            <span class="speaker-badge medico">Médico</span>
+            <div class="fala-text">A tirzepatida age em hormônios do intestino — controla a glicose, reduz o apetite e aumenta a saciedade. É indicada para obesidade ou sobrepeso com comorbidades, sempre com avaliação individual.</div>
+          </div>
+          <div class="fala fala-nutri">
+            <span class="speaker-badge nutri">Nutri</span>
+            <div class="fala-text">E é aqui que muita gente erra: a caneta diminui a fome, mas não te ensina a comer melhor. Por isso quem usa sem orientação emagrece — e depois volta tudo. Sem acompanhamento nutricional, é muito comum perder músculo, ter queda de cabelo e intestino desregulado.</div>
+          </div>
+          <div class="fala fala-medico">
+            <span class="speaker-badge medico">Médico</span>
+            <div class="fala-text">Por isso o tratamento não é só a medicação. É acompanhamento, ajuste de dose e alinhamento com a alimentação do início ao fim.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#22d3ee"></span> CTA</div>
+        <div class="cta-box">💬 "Você usa ou pensa em usar? Me conta nos comentários."<br>📌 Salva esse vídeo — tem muita gente precisando ver isso.</div>
+      </div>
+
+      <div class="tip-box">
+        <strong>🎬 Dica de gravação</strong>
+        Médico e nutri no mesmo enquadramento ou corte rápido entre os dois. Texto na tela no hook: <em>"Milagre ou ferramenta? A verdade sobre a caneta"</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMA 2 -->
+  <div class="script-card t2" id="t2">
+    <div class="card-header" onclick="toggle('t2')">
+      <div class="num-badge">02</div>
+      <div class="card-title-wrap">
+        <div class="card-title">Por que tanta gente toma a caneta e engorda tudo de volta?</div>
+        <div class="card-tags">
+          <span class="tag tag-alerta">⚠️ Alerta</span>
+          <span class="tag tag-lista">📋 Lista</span>
+          <span class="tag tag-collab">👥 Collab</span>
+        </div>
+      </div>
+      <div class="toggle-btn">+</div>
+    </div>
+    <div class="card-body">
+      <div class="timer-badge">⏱️ ~60 segundos</div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#f87171"></span> HOOK — 📋 LISTA (primeiros 3 seg)</div>
+        <div class="hook-box-lista">
+          <div class="hook-type-label" style="color:var(--accent3)">📋 Lista</div>
+          <div class="hook-text">
+            <strong>[Texto na tela aparecendo enquanto médico fala]</strong><br><br>
+            "4 motivos que fazem as pessoas engordarem tudo de volta depois da caneta. O número 3 ninguém te conta."
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#f87171"></span> ROTEIRO</div>
+        <div class="dialogue">
+          <div class="fala fala-medico">
+            <span class="speaker-badge medico">Médico</span>
+            <div class="fala-text">Isso acontece mais do que as pessoas imaginam. Quando a medicação é interrompida sem acompanhamento, o apetite volta — às vezes mais intenso. E o corpo tenta recuperar o peso perdido, especialmente sem mudança no estilo de vida.</div>
+          </div>
+          <div class="fala fala-nutri">
+            <span class="speaker-badge nutri">Nutri</span>
+            <div class="fala-text">
+              E aqui estão os 4 motivos reais:
+              <ul>
+                <li>Continua sem aprender a montar uma refeição</li>
+                <li>Não ajusta quantidade e não prioriza proteína</li>
+                <li>Come pouco demais e perde massa muscular — isso desacelera o metabolismo</li>
+                <li>Quando tira a caneta, volta pro mesmo comportamento de antes</li>
+              </ul>
+            </div>
+          </div>
+          <div class="fala fala-medico">
+            <span class="speaker-badge medico">Médico</span>
+            <div class="fala-text">O tratamento precisa ser planejado do início ao fim — inclusive a fase de redução ou suspensão.</div>
+          </div>
+          <div class="fala fala-nutri">
+            <span class="speaker-badge nutri">Nutri</span>
+            <div class="fala-text">Se você não muda o comportamento durante o processo, o peso volta quando a medicação sai. Simples assim.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#f87171"></span> CTA</div>
+        <div class="cta-box">💬 "Qual dos 4 você se identificou? Me conta."<br>📲 Manda pra alguém que está nesse ciclo agora.</div>
+      </div>
+
+      <div class="tip-box">
+        <strong>🎬 Dica de gravação</strong>
+        Os 4 itens aparecem na tela conforme a nutri fala — esse recurso de legenda aumenta muito a retenção. Texto no hook: <em>"A verdade que ninguém te conta sobre a caneta"</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMA 3 -->
+  <div class="script-card t3" id="t3">
+    <div class="card-header" onclick="toggle('t3')">
+      <div class="num-badge">03</div>
+      <div class="card-title-wrap">
+        <div class="card-title">O que comer enquanto está na caneta?</div>
+        <div class="card-tags">
+          <span class="tag tag-edu">🧠 Educativo</span>
+          <span class="tag tag-lista">📋 Lista</span>
+          <span class="tag tag-collab">👥 Collab</span>
+        </div>
+      </div>
+      <div class="toggle-btn">+</div>
+    </div>
+    <div class="card-body">
+      <div class="timer-badge">⏱️ ~55 segundos</div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#34d399"></span> HOOK — 📋 LISTA (primeiros 3 seg)</div>
+        <div class="hook-box-lista">
+          <div class="hook-type-label" style="color:var(--accent3)">📋 Lista</div>
+          <div class="hook-text">
+            <strong>[Nutri abre o vídeo]</strong><br><br>
+            "Usando caneta emagrecedora? Você PRECISA priorizar essas 4 coisas na alimentação — senão o resultado vai por água abaixo."
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#34d399"></span> ROTEIRO</div>
+        <div class="dialogue">
+          <div class="fala fala-nutri">
+            <span class="speaker-badge nutri">Nutri</span>
+            <div class="fala-text">A medicação reduz muito o apetite. Se você não souber o que priorizar, come pouco — mas come errado. O foco precisa ser:
+              <ul>
+                <li>✅ Proteína em todas as refeições</li>
+                <li>✅ Alimentos de fácil digestão</li>
+                <li>✅ Refeições pequenas, mas nutritivas</li>
+                <li>✅ Boa hidratação ao longo do dia</li>
+              </ul>
+              O erro que eu mais vejo: a pessoa perde a fome e começa a beliscar qualquer coisa ou simplesmente pula refeições.
+            </div>
+          </div>
+          <div class="fala fala-medico">
+            <span class="speaker-badge medico">Médico</span>
+            <div class="fala-text">E isso atrapalha o tratamento. Além de perder músculo, uma alimentação inadequada intensifica efeitos colaterais como náuseas e indisposição.</div>
+          </div>
+          <div class="fala fala-nutri">
+            <span class="speaker-badge nutri">Nutri</span>
+            <div class="fala-text">Não é só comer menos. É saber o que comer, quanto comer — mesmo sem fome.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#34d399"></span> CTA</div>
+        <div class="cta-box">💬 "Você está usando a caneta? Me conta como está sendo sua alimentação."<br>🔖 Salva esse vídeo pra não esquecer os 4 pontos.</div>
+      </div>
+
+      <div class="tip-box">
+        <strong>🎬 Dica de gravação</strong>
+        Os 4 itens aparecem como checklist na tela. Nutri abre o vídeo (ela é a especialista do tema) e médico entra pra reforçar com autoridade clínica.
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMA 4 -->
+  <div class="script-card t4" id="t4">
+    <div class="card-header" onclick="toggle('t4')">
+      <div class="num-badge">04</div>
+      <div class="card-title-wrap">
+        <div class="card-title">Efeitos colaterais da caneta — o que fazer?</div>
+        <div class="card-tags">
+          <span class="tag tag-edu">🧠 Educativo</span>
+          <span class="tag tag-promessa">💥 Promessa</span>
+          <span class="tag tag-collab">👥 Collab</span>
+        </div>
+      </div>
+      <div class="toggle-btn">+</div>
+    </div>
+    <div class="card-body">
+      <div class="timer-badge">⏱️ ~60 segundos</div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#fbbf24"></span> HOOK — 💥 PROMESSA (primeiros 3 seg)</div>
+        <div class="hook-box-promessa">
+          <div class="hook-type-label" style="color:#a78bfa">💥 Promessa</div>
+          <div class="hook-text">
+            <strong>[Médico olha pra câmera com expressão séria]</strong><br><br>
+            "Náusea, enjoo, estômago cheio o tempo todo… você não precisa sofrer com a caneta. Tem solução — e é mais simples do que parece."
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#fbbf24"></span> ROTEIRO</div>
+        <div class="dialogue">
+          <div class="fala fala-medico">
+            <span class="speaker-badge medico">Médico</span>
+            <div class="fala-text">Esses efeitos são comuns no início — náusea, sensação de estômago cheio, enjoo e constipação. Acontecem porque a medicação retarda o esvaziamento gástrico. Mas precisam ser acompanhados — às vezes é necessário ajustar a dose.</div>
+          </div>
+          <div class="fala fala-nutri">
+            <span class="speaker-badge nutri">Nutri</span>
+            <div class="fala-text">
+              E a alimentação faz toda a diferença aqui. O que funciona na prática:
+              <ul>
+                <li>Refeições menores e mais leves ao longo do dia</li>
+                <li>Chás de gengibre ou hortelã ajudam no enjoo</li>
+                <li>Evitar alimentos gordurosos ou com cheiro forte</li>
+                <li>Texturas mais leves — preparações frias ou pastosas</li>
+              </ul>
+              O que piora muito: ficar horas em jejum e depois tentar fazer uma refeição grande.
+            </div>
+          </div>
+          <div class="fala fala-medico">
+            <span class="speaker-badge medico">Médico</span>
+            <div class="fala-text">Se os sintomas forem intensos ou persistentes, procure o médico. Com os ajustes certos, o processo fica muito mais leve.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#fbbf24"></span> CTA</div>
+        <div class="cta-box">💬 "Está tendo algum desses efeitos? Me conta — eu respondo."<br>📌 Salva pra consultar quando precisar.</div>
+      </div>
+
+      <div class="tip-box">
+        <strong>🎬 Dica de gravação</strong>
+        Médico abre com o "não precisa sofrer" — isso para o scroll. Nutri entra com soluções práticas enquanto os itens aparecem na tela.
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMA 5 -->
+  <div class="script-card t5" id="t5">
+    <div class="card-header" onclick="toggle('t5')">
+      <div class="num-badge">05</div>
+      <div class="card-title-wrap">
+        <div class="card-title">Antes de tomar a caneta, você precisa saber disso</div>
+        <div class="card-tags">
+          <span class="tag tag-alerta">⚠️ Alerta</span>
+          <span class="tag tag-promessa">💥 Promessa</span>
+          <span class="tag tag-collab">👥 Collab</span>
+        </div>
+      </div>
+      <div class="toggle-btn">+</div>
+    </div>
+    <div class="card-body">
+      <div class="timer-badge">⏱️ ~55 segundos</div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#a78bfa"></span> HOOK — 💥 PROMESSA (primeiros 3 seg)</div>
+        <div class="hook-box-promessa">
+          <div class="hook-type-label" style="color:#a78bfa">💥 Promessa</div>
+          <div class="hook-text">
+            <strong>[Texto na tela + voz do médico]</strong><br><br>
+            "Se você está pensando em começar a caneta emagrecedora — assiste esse vídeo primeiro. Tem uma informação que pode evitar muito sofrimento."
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#a78bfa"></span> ROTEIRO</div>
+        <div class="dialogue">
+          <div class="fala fala-medico">
+            <span class="speaker-badge medico">Médico</span>
+            <div class="fala-text">Antes de iniciar, é fundamental uma avaliação completa — histórico clínico, exames e entender se existe indicação real. Não é simplesmente para quem quer emagrecer rápido. Nem todo mundo é um bom candidato.</div>
+          </div>
+          <div class="fala fala-nutri">
+            <span class="speaker-badge nutri">Nutri</span>
+            <div class="fala-text">E tem um ponto que pouca gente fala: a expectativa. Muita gente acha que vai usar a caneta e simplesmente "parar de comer". Não é assim. Durante o uso, a gente precisa ajustar qualidade, quantidade e rotina alimentar — especialmente a ingestão de proteína. Sem isso, você até emagrece, mas perde músculo, passa mal e não consegue manter.</div>
+          </div>
+          <div class="fala fala-medico">
+            <span class="speaker-badge medico">Médico</span>
+            <div class="fala-text">O tratamento não começa na aplicação. Começa na avaliação. E precisa de acompanhamento em todo o processo.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#a78bfa"></span> CTA</div>
+        <div class="cta-box">💬 "Tem dúvida antes de começar? Me manda mensagem ou comenta aqui."<br>📲 Manda pra alguém que está pensando em usar.</div>
+      </div>
+
+      <div class="tip-box">
+        <strong>🎬 Dica de gravação</strong>
+        "Assiste esse vídeo primeiro" no hook cria senso de urgência e exclusividade. Texto na tela: <em>"Antes de usar caneta emagrecedora, veja isso."</em>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMA 6 -->
+  <div class="script-card t6" id="t6">
+    <div class="card-header" onclick="toggle('t6')">
+      <div class="num-badge">06</div>
+      <div class="card-title-wrap">
+        <div class="card-title">Alimentos proibidos no Mounjaro</div>
+        <div class="card-tags">
+          <span class="tag tag-lista">📋 Lista</span>
+          <span class="tag tag-viral">🔥 Viral</span>
+          <span class="tag tag-collab">👥 Collab</span>
+        </div>
+      </div>
+      <div class="toggle-btn">+</div>
+    </div>
+    <div class="card-body">
+      <div class="timer-badge">⏱️ ~55 segundos</div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#f472b6"></span> HOOK — 📋 LISTA (primeiros 3 seg)</div>
+        <div class="hook-box-lista">
+          <div class="hook-type-label" style="color:var(--accent3)">📋 Lista</div>
+          <div class="hook-text">
+            <strong>[Nutri abre com tom de alerta]</strong><br><br>
+            "Está usando Mounjaro? Esses 6 alimentos podem estar atrapalhando seu resultado — e o último vai te surpreender."
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#f472b6"></span> ROTEIRO</div>
+        <div class="dialogue">
+          <div class="fala fala-medico">
+            <span class="speaker-badge medico">Médico</span>
+            <div class="fala-text">O Mounjaro já diminui a velocidade do esvaziamento gástrico. Por isso, alguns alimentos pioram muito os efeitos colaterais e atrapalham o resultado.</div>
+          </div>
+          <div class="fala fala-nutri">
+            <span class="speaker-badge nutri">Nutri</span>
+            <div class="fala-text">
+              O que você deve evitar:
+              <ul>
+                <li>🚫 <strong>Frituras e gordura saturada</strong> — aumentam náusea, azia e refluxo</li>
+                <li>🚫 <strong>Ultraprocessados e fast-food</strong> — inflamam e prejudicam o metabolismo</li>
+                <li>🚫 <strong>Açúcar e doces</strong> — causam picos de glicose e mal-estar</li>
+                <li>🚫 <strong>Álcool</strong> — potencializa náusea e atrapalha a queima de gordura</li>
+                <li>🚫 <strong>Picantes e excesso de cafeína</strong> — aumentam azia e diarreia</li>
+                <li>🚫 <strong>Excesso de laticínios</strong> — podem causar gases e estufamento em pessoas sensíveis</li>
+              </ul>
+            </div>
+          </div>
+          <div class="fala fala-medico">
+            <span class="speaker-badge medico">Médico</span>
+            <div class="fala-text">Pequenos ajustes na alimentação fazem uma diferença enorme na tolerância ao medicamento e no resultado final.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-label"><span class="dot" style="background:#f472b6"></span> CTA</div>
+        <div class="cta-box">💬 "Qual desses você consome e não sabia que atrapalhava? Comenta aqui!"<br>📌 Salva esse vídeo — você vai querer consultar.<br>📲 Manda pra quem está no tratamento.</div>
+      </div>
+
+      <div class="tip-box">
+        <strong>🎬 Dica de gravação</strong>
+        Os 6 itens aparecem na tela com ícone 🚫 conforme a nutri fala — esse formato de "lista revelada" é um dos mais virais do Instagram. Deixa o "excesso de laticínios" por último — surpresa no final retém o público até o final.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Roteiros Collab · Dr. Yeiko × Nutri Luana · Reels · 2025</div>
+
+<script>
+  function toggle(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+    el.querySelector('.toggle-btn').textContent = el.classList.contains('open') ? '−' : '+';
+  }
+</script>
+</body>
+</html>
