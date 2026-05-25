@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roteiros — Dr. Sérgio Torrico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f0e8;
+      --bg2: #ede7d9;
+      --bg3: #e4dccb;
+      --ink: #1a1510;
+      --ink2: #3d3428;
+      --ink3: #6b5e4a;
+      --accent: #c0392b;
+      --accent2: #e74c3c;
+      --gold: #b8860b;
+      --gold-light: #d4a017;
+      --border: rgba(26,21,16,0.12);
+      --border-strong: rgba(26,21,16,0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-top {
+      background: var(--accent);
+      text-align: center;
+      padding: 8px 24px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .header-main {
+      padding: 50px 24px 44px;
+      text-align: center;
+      position: relative;
+    }
+    .header-main::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 60px; height: 3px;
+      background: var(--accent);
+    }
+    .h-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 16px;
+      display: block;
+    }
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 10vw, 6rem);
+      letter-spacing: 4px;
+      line-height: 1;
+      color: #fff;
+    }
+    header h1 em {
+      color: var(--accent2);
+      font-style: normal;
+    }
+    .header-byline {
+      margin-top: 14px;
+      color: rgba(245,240,232,0.5);
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+    .header-pills {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .pill {
+      background: rgba(245,240,232,0.08);
+      border: 1px solid rgba(245,240,232,0.2);
+      color: rgba(245,240,232,0.7);
+      font-size: 11px;
+      padding: 5px 14px;
+      border-radius: 3px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .pill strong { color: #fff; }
+
+    /* ── CAL ── */
+    .cal-wrap {
+      background: var(--ink2);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cal-label-txt {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.4);
+    }
+    .cal-dots { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+    .cal-dot {
+      width: 34px; height: 34px;
+      border-radius: 3px;
+      background: rgba(245,240,232,0.05);
+      border: 1px solid rgba(245,240,232,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+      color: rgba(245,240,232,0.4);
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+    }
+    .cal-dot.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .cal-dot:hover:not(.active) { border-color: rgba(245,240,232,0.4); color: rgba(245,240,232,0.9); }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px 100px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: #fff;
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(26,21,16,0.06);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .card:hover { box-shadow: 0 6px 24px rgba(26,21,16,0.1); }
+    .card.open { border-color: var(--accent); }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 22px;
+      cursor: pointer;
+      background: #fff;
+      transition: background .2s;
+    }
+    .card.open .card-header { background: var(--bg); }
+
+    .card-num {
+      flex-shrink: 0;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--accent);
+      min-width: 36px;
+    }
+    .card-meta { flex: 1; min-width: 0; }
+    .card-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 7px;
+    }
+    .tag {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 2px;
+      border: 1px solid;
+    }
+    .tag-humor   { background: #fff8e1; border-color: #f9a825; color: #7a5c00; }
+    .tag-edu     { background: #e3f2fd; border-color: #1565c0; color: #1565c0; }
+    .tag-trend   { background: #fce4ec; border-color: #c62828; color: #c62828; }
+    .tag-convert { background: #e8f5e9; border-color: #2e7d32; color: #2e7d32; }
+    .tag-ironia  { background: #f3e5f5; border-color: #6a1b9a; color: #6a1b9a; }
+    .tag-pessoal { background: #fff3e0; border-color: #e65100; color: #e65100; }
+    .tag-phone   { background: #f1f8e9; border-color: #558b2f; color: #558b2f; }
+
+    .card-toggle {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      border-radius: 2px;
+      border: 1.5px solid var(--border-strong);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      color: var(--ink3);
+      transition: all .25s;
+      font-weight: 700;
+    }
+    .card.open .card-toggle {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      transform: rotate(180deg);
+    }
+
+    /* ── BODY ── */
+    .card-body { display: none; border-top: 1px solid var(--border); }
+    .card.open .card-body { display: block; }
+
+    .body-inner { padding: 26px 24px 30px; }
+
+    .sec-title {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1.5px solid var(--bg3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hook-box {
+      background: var(--bg);
+      border-left: 4px solid var(--accent);
+      padding: 14px 18px;
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--ink);
+      line-height: 1.7;
+      margin-bottom: 22px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .script-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 18px 20px;
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.85;
+      white-space: pre-wrap;
+      margin-bottom: 22px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .cta-box {
+      background: #fff8f8;
+      border: 1px solid rgba(192,57,43,0.2);
+      border-radius: 4px;
+      padding: 14px 18px;
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.8;
+      margin-bottom: 22px;
+    }
+
+    .tip-box {
+      background: #f0f7ff;
+      border: 1px solid rgba(21,101,192,0.2);
+      border-radius: 4px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #1a3a5c;
+      line-height: 1.75;
+    }
+    .tip-box strong { color: #1565c0; }
+
+    .humor-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff8e1;
+      border: 1px solid #f9a825;
+      color: #7a5c00;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 2px;
+      margin-bottom: 18px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: rgba(245,240,232,0.4);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 11px;
+      letter-spacing: 0.8px;
+    }
+    footer span { color: var(--accent2); }
+
+    @media (max-width: 500px) {
+      .card-header { padding: 16px 14px; gap: 12px; }
+      .body-inner { padding: 18px 14px 22px; }
+      header h1 { font-size: 3.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">📅 Calendário de Conteúdo — Maio 2025</div>
+  <div class="header-main">
+    <span class="h-label">🏥 Cirurgia Plástica</span>
+    <h1>Roteiros<br/><em>Dr. Sérgio Torrico</em></h1>
+    <p class="header-byline">Cirurgião Plástico · Membro da SBCP</p>
+    <div class="header-pills">
+      <span class="pill"><strong>9</strong> Vídeos</span>
+      <span class="pill">📱 Reels / TikTok</span>
+      <span class="pill">😂 Humor + Educativo</span>
+      <span class="pill">🔥 Alta Performance</span>
+    </div>
+  </div>
+</header>
+
+<div class="cal-wrap">
+  <span class="cal-label-txt">Vídeos</span>
+  <div class="cal-dots" id="cal"></div>
+</div>
+
+<main id="roteiros"></main>
+
+<footer>Roteiros criados para <span>Dr. Sérgio Torrico</span> · Cirurgia Plástica · 2025<br/>Uso exclusivo — adapte à sua voz e personalidade</footer>
+
+<script>
+const roteiros = [
+  {
+    num: "01",
+    title: "A Virgínia e o meme que todo cirurgião plástico precisava fazer",
+    humor: true,
+    tom: "🔥 Trend + Ironia leve",
+    tags: [
+      { label: "🔥 Trend", cls: "tag-trend" },
+      { label: "😂 Humor", cls: "tag-humor" },
+      { label: "📱 Reels", cls: "tag-phone" }
+    ],
+    hook: '"Todo mundo tá falando da Virgínia. Eu precisava vir aqui dar minha opinião profissional. Mas calma — é profissional mesmo."',
+    script: `[Tom de quem tá tentando ser sério mas não consegue segurar o sorriso]
+
+"Gente, a Virgínia é fenômeno. Faturamento de empresa, marido famoso, quatro filhos, ainda arruma tempo pra postar três vezes por dia.
+
+E aí alguém me perguntou: 'Doutor, o que você acha do rosto da Virgínia?'
+
+[Pausa dramática]
+
+Como profissional, eu só posso dizer o seguinte...
+
+Ela tem uma pele maravilhosa, traços harmoniosos, e claramente conta com uma boa equipe ao redor dela.
+
+[Olha pra câmera com cara de quem sabe mais do que tá falando]
+
+Mas o que eu realmente quero falar é sobre o EFEITO Virgínia.
+
+Desde que ela virou fenômeno, o número de pacientes que chegam no meu consultório falando 'quero ficar igual à Virgínia' aumentou... muito.
+
+E é aqui que eu preciso ser honesto com vocês:
+
+Cada rosto é único. A harmonia que funciona pra ela pode não funcionar pra você. E tá tudo bem.
+
+O meu trabalho não é te transformar em outra pessoa. É realçar o melhor de VOCÊ.
+
+[Tom mais descontraído]
+
+Mas se você quiser vir aqui conversar sobre isso, é só marcar uma consulta.
+
+Eu prometo que vou ser mais professional do que fui nesse vídeo."`,
+    cta: `💬 "Comenta aqui: você já pediu pra ficar parecida com alguma famosa? Me conta!"
+😂 Marca aquela amiga que ama a Virgínia.`,
+    tip: `<strong>📸 Sugestão Visual:</strong> Começa com expressão séria "de médico" e vai quebrando o personagem aos poucos. Pode colocar o áudio viral da Virgínia de fundo nos primeiros segundos como gancho. Legendas com reações exageradas.`
+  },
+  {
+    num: "02",
+    title: "Copa do Mundo e a analogia que ninguém esperava",
+    humor: true,
+    tom: "😂 Humor + Educativo",
+    tags: [
+      { label: "🔥 Trend", cls: "tag-trend" },
+      { label: "😂 Humor", cls: "tag-humor" },
+      { label: "🧠 Educativo", cls: "tag-edu" }
+    ],
+    hook: '"Copa do Mundo e cirurgia plástica têm mais em comum do que você imagina. Deixa eu te explicar."',
+    script: `[Tom animado, como se tivesse tendo uma revelação]
+
+"Vamos lá.
+
+Na Copa, você não escala o Neymar pra jogar de goleiro, né?
+
+Cada jogador tem a sua posição. Tem a sua função. Tem a sua especialidade.
+
+Na cirurgia plástica é EXATAMENTE igual.
+
+[Começa a enumerar com energia]
+
+Lipoaspiração? É o atacante. Entra, faz o gol, resultado rápido.
+
+Abdominoplastia? O zagueiro. Dá estrutura, segura tudo no lugar.
+
+Botox? O lateral. Aquele suporte discreto que faz toda diferença mas pouca gente nota quando tá bem feito.
+
+Blefaroplastia? O goleiro. Salva o jogo lá no detalhe, aquele olhar que entrega a idade antes de tudo.
+
+[Pausa pra efeito]
+
+E quem é o técnico?
+
+O cirurgião plástico.
+
+É ele quem monta a estratégia. Decide o que entra em campo. Na ordem certa. No momento certo.
+
+[Tom mais sério por um segundo]
+
+Não adianta escalar todo time ao mesmo tempo.
+
+Cada procedimento tem sua hora. Seu timing. Seu planejamento.
+
+[Volta o humor]
+
+E assim como na Copa, time bom não é o mais caro. É o mais bem preparado.
+
+Então na hora de escolher seu cirurgião, escolhe o técnico que conhece cada jogador — e sabe quando usar cada um."`,
+    cta: `💬 "Qual procedimento você acha que seria o Neymar? Comenta aqui!"
+⚽ Marca aquele amigo que entende tudo de Copa mas nada de cirurgia plástica.`,
+    tip: `<strong>📸 Sugestão Visual:</strong> Pode usar imagens de jogadores famosos enquanto faz a analogia (sem reproduzir conteúdo protegido). Ritmo dinâmico de corte. Expressão bem animada — esse é um vídeo de energia alta.`
+  },
+  {
+    num: "03",
+    title: "Por que você deveria fazer Botox comigo (versão honesta)",
+    humor: true,
+    tom: "😏 Sarcástico mas elegante",
+    tags: [
+      { label: "😂 Humor", cls: "tag-humor" },
+      { label: "🧠 Educativo", cls: "tag-edu" },
+      { label: "📲 Conversão", cls: "tag-convert" }
+    ],
+    hook: '"Vou te dar cinco motivos pra fazer Botox comigo. E aviso logo: pelo menos dois deles são completamente honestos demais."',
+    script: `[Tom de humor seco, estilo talk direto pra câmera]
+
+"Motivo um: Eu sei o que estou fazendo.
+
+Parece óbvio, né? Mas no Brasil qualquer um com um curso de fim de semana injeta Botox. Eu sou cirurgião plástico formado, com anos de prática. Existe diferença. Grande.
+
+Motivo dois: Eu não vou te deixar com cara de surpresa permanente.
+
+Sabe aquela expressão de 'acabei de levar um susto'? Não é o objetivo. O objetivo é você descansada. Natural. Você mesma — só em modo recarregado.
+
+Motivo três: Eu falo a verdade.
+
+Se você chegar aqui achando que Botox vai resolver algo que só uma cirurgia resolve, eu vou te falar. Sem drama, sem empurrar procedimento desnecessário. Só a verdade.
+
+[Pausa com expressão séria fingida]
+
+Motivo quatro: Minha equipe é incrível.
+
+Posso falar isso porque eu mesmo fui muito exigente na hora de montar. Ambiente seguro, material certificado, protocolo rigoroso.
+
+[Expressão divertida]
+
+E motivo cinco — o mais honesto de todos:
+
+Porque você já tá me seguindo faz tempo, já confia no meu conteúdo, e lá no fundo você sabe que quando decidir fazer, vai ser comigo mesmo.
+
+[Sorriso]
+
+Então... quando você quiser marcar, é só chamar. Sem pressão. Sem julgamento.
+
+Pode ser agora ou daqui a dois anos. Estarei aqui."`,
+    cta: `💬 "Qual dos cinco motivos te convenceu mais? Comenta aqui embaixo."
+📲 Manda no direct "BOTOX" que a gente te passa todas as informações.`,
+    tip: `<strong>📸 Sugestão Visual:</strong> Fundo limpo, consultório elegante. Pode usar texto na tela com os números dos motivos aparecendo conforme fala. Tom descontraído mas profissional — esse vídeo precisa de carisma puro.`
+  },
+  {
+    num: "04",
+    title: "Por que fazer Bioestimulador comigo (e não com qualquer um)",
+    humor: false,
+    tom: "🧠 Educativo + Conversão",
+    tags: [
+      { label: "🧠 Educativo", cls: "tag-edu" },
+      { label: "📲 Conversão", cls: "tag-convert" },
+      { label: "📱 Reels", cls: "tag-phone" }
+    ],
+    hook: '"Bioestimulador virou moda. Todo mundo aplica. Mas nem todo mundo aplica certo — e a diferença aparece no seu rosto."',
+    script: `[Tom de especialista que se importa de verdade]
+
+"Vou ser direto com você.
+
+Bioestimulador de colágeno é um dos procedimentos mais poderosos da medicina estética quando feito corretamente. E um dos mais mal feitos quando está nas mãos erradas.
+
+Por quê? Porque exige conhecimento de anatomia profunda. A injeção precisa chegar no plano certo. No local certo. Na quantidade certa.
+
+Erro aqui não é só resultado ruim. Pode ser complicação séria.
+
+[Pausa para deixar pesar]
+
+Quando você faz comigo, você tem:
+
+→ Avaliação facial completa antes de qualquer aplicação. Eu analiso sua estrutura óssea, a distribuição de gordura e a qualidade da sua pele.
+
+→ Planejamento personalizado. Não existe protocolo padrão que serve pra todo mundo.
+
+→ Técnica cirúrgica de quem opera. Minha habilidade manual vem de anos de sala de cirurgia. Isso faz diferença na precisão.
+
+→ Acompanhamento real. Eu quero ver o resultado em 30, 60, 90 dias.
+
+[Tom mais caloroso]
+
+Bioestimulador não é milagre instantâneo. É investimento progressivo. Mês a mês seu colágeno melhora. Sua pele fica mais firme, mais saudável, mais jovem.
+
+Mas pra isso acontecer do jeito certo, você precisa estar nas mãos certas.
+
+Pensa nisso quando for pesquisar onde fazer."`,
+    cta: `💬 "Você já fez Bioestimulador? Conta aqui como foi sua experiência."
+📲 Manda "BIOESTIMULADOR" no direct pra saber mais sobre o procedimento.`,
+    tip: `<strong>📸 Sugestão Visual:</strong> Consultório impecável. Pode mostrar brevemente o produto (sem marcas específicas se preferir). Texto de apoio na tela com os 4 pontos. Tom de autoridade tranquila.`
+  },
+  {
+    num: "05",
+    title: "O que a motovelocidade me ensinou sobre cirurgia plástica",
+    humor: true,
+    tom: "💛 Pessoal + Analogia inesperada",
+    tags: [
+      { label: "💛 Pessoal", cls: "tag-pessoal" },
+      { label: "😂 Humor", cls: "tag-humor" },
+      { label: "🧠 Educativo", cls: "tag-edu" }
+    ],
+    hook: '"Eu pratico motovelocidade. E um dia percebi que o que aprendi na pista é exatamente o que eu aplico na sala de cirurgia."',
+    script: `[Tom reflexivo com pitadas de humor]
+
+"Pode parecer loucura. Mas deixa eu te explicar.
+
+Na motovelocidade, não existe piloto bom que não respeita o processo.
+
+Você não sai de zero pra 200 km/h sem treino. Sem técnica. Sem entender cada curva da pista.
+
+E sabe o que acontece com quem tenta queimar etapas numa moto?
+
+[Expressão séria]
+
+Cai.
+
+[Pausa]
+
+Na cirurgia plástica, a lógica é IDÊNTICA.
+
+Lição um: Velocidade não é competência.
+
+Na pista, quem chega mais rápido nos primeiros treinos geralmente é quem menos respeitou a técnica. E isso cobra um preço.
+
+No bisturi é a mesma coisa. Cirurgião rápido demais, sem critério, sem cuidado, é risco.
+
+Lição dois: Cada curva exige uma decisão diferente.
+
+Não existe movimento automático numa moto de corrida. Cada centímetro é decisão consciente.
+
+Cada paciente na mesa é igual. Cada detalhe importa.
+
+Lição três: O equipamento certo salva vidas.
+
+Capacete, macacão, luvas. Não é exagero, é protocolo.
+
+Centro cirúrgico certificado, equipe qualificada, material de primeira linha. Também não é exagero. É o básico que você merece.
+
+[Tom mais leve no final]
+
+E a lição mais importante que a moto me deu?
+
+Humildade. Porque a pista, assim como o corpo humano, sempre vai ser maior que você.
+
+E respeitar isso é o que separa o bom profissional do imprudente."`,
+    cta: `💬 "Você tem algum hobby que parece não combinar nada com sua profissão? Me conta!"
+🏍️ Marca aquele amigo que ia achar impossível que médico anda de moto.`,
+    tip: `<strong>📸 Sugestão Visual:</strong> ABRE com imagens suas na moto (capacete, equipamento, pista). Intercala entre a moto e o consultório. Esse contraste visual é o que vai parar o scroll. Trilha com energia.`
+  },
+  {
+    num: "06",
+    title: "Lipofracionada — por que PRECISA ser com cirurgião plástico",
+    humor: false,
+    tom: "⚠️ Educativo + Alerta",
+    tags: [
+      { label: "🧠 Educativo", cls: "tag-edu" },
+      { label: "⚠️ Alerta", cls: "tag-trend" },
+      { label: "📲 Conversão", cls: "tag-convert" }
+    ],
+    hook: '"Lipofracionada tá na boca do povo. Clínica de estética faz, spa faz, às vezes até salão de beleza faz. E hoje eu preciso te contar o risco que você corre."',
+    script: `[Tom firme, de proteção — você tá informando porque se importa]
+
+"Lipofracionada é um procedimento de laser de alta potência. Ele cria microlesões controladas na pele para estimular renovação celular e colágeno.
+
+Quando feito corretamente, os resultados são excelentes. Melhora de textura, fechamento de poros, redução de estrias, cicatrizes e flacidez leve.
+
+O problema?
+
+[Pausa]
+
+A palavra 'microlesões controladas'.
+
+Controladas por quem? Com qual preparo? Com qual equipamento?
+
+Porque lesão não controlada não é estética. É queimadura. É hiperpigmentação. É cicatriz que você não queria.
+
+[Lista clara]
+
+Quem pode fazer lipofracionada com segurança:
+
+→ Cirurgião plástico ou dermatologista com formação em laser. Ponto.
+
+Não é preconceito. É porque o conhecimento de anatomia, de profundidade de tecido, de como o corpo reage à lesão térmica — isso não se aprende num curso rápido.
+
+[Tom mais direto]
+
+Antes de fazer qualquer procedimento de laser no rosto ou corpo, pergunte:
+
+'Quem vai operar o equipamento tem formação médica especializada?'
+
+Se a resposta hesitar, você já tem a sua resposta.
+
+Beleza é investimento. Não arrisque num procedimento que pode deixar marca permanente por economizar na consulta."`,
+    cta: `💬 "Você já fez ou pensou em fazer lipofracionada? Me conta nos comentários."
+📌 Salva esse vídeo antes de agendar qualquer procedimento de laser.`,
+    tip: `<strong>📸 Sugestão Visual:</strong> Consultório profissional. Pode mostrar o equipamento (laser) brevemente. Texto de apoio aparecendo com os pontos principais. Tom sério mas acessível — não é pra assustar, é pra informar.`
+  },
+  {
+    num: "07",
+    title: "Refinamento pós-operatório — o segredo do resultado perfeito",
+    humor: false,
+    tom: "🧠 Educativo + Diferencial",
+    tags: [
+      { label: "🧠 Educativo", cls: "tag-edu" },
+      { label: "📲 Conversão", cls: "tag-convert" },
+      { label: "📱 Reels", cls: "tag-phone" }
+    ],
+    hook: '"A cirurgia foi um sucesso. O resultado ficou ótimo. Mas tem uma etapa que separa o resultado bom do resultado EXTRAORDINÁRIO — e quase ninguém fala sobre ela."',
+    script: `[Tom de quem tá compartilhando um diferencial real]
+
+"Refinamento pós-operatório.
+
+É o conjunto de cuidados e procedimentos feitos semanas ou meses após a cirurgia para otimizar o resultado final.
+
+Vou te dar exemplos práticos:
+
+Depois de uma lipoaspiração, às vezes ficam pequenas irregularidades na pele. Com massagem modeladora específica, ultrassom e protocolos adequados, essas irregularidades se resolvem — e o contorno fica muito mais preciso.
+
+Depois de uma mamoplastia, a cicatriz precisa de cuidado ativo. Laser, silicone, proteção solar. Cicatriz bem tratada no primeiro ano é cicatriz invisível depois.
+
+Depois de rinoplastia, o inchaço some gradualmente. Mas com drenagem linfática especializada, esse processo acelera. O nariz revela seu formato final mais rápido.
+
+[Ponto importante]
+
+O refinamento não é sinal de que algo deu errado. É parte do protocolo de excelência.
+
+Eu acompanho meus pacientes de perto justamente porque sei que o resultado final não sai só da sala de cirurgia.
+
+Sai do acompanhamento.
+
+Da parceria entre médico e paciente nos meses que se seguem.
+
+[Conclusão]
+
+Quando você escolhe um cirurgião, pergunte:
+
+'Você acompanha o pós-operatório? Oferece refinamento? Tem protocolo de cicatriz?'
+
+Porque cirurgia boa começa muito antes e termina muito depois da operação em si."`,
+    cta: `💬 "Você sabia que refinamento pós-op existia? Me conta nos comentários."
+📌 Salva esse vídeo se você tá planejando uma cirurgia.`,
+    tip: `<strong>📸 Sugestão Visual:</strong> Pode mostrar fotos de antes/depois com foco na qualidade do refinamento (cicatrizes bem tratadas, contornos precisos). Texto de apoio com exemplos práticos. Tom de especialista que vai além do básico.`
+  },
+  {
+    num: "08",
+    title: "Gordura localizada, flacidez ou lipedema? Você sabe a diferença?",
+    humor: true,
+    tom: "😂 Humor Leve + Muito Educativo",
+    tags: [
+      { label: "😂 Humor", cls: "tag-humor" },
+      { label: "🧠 Educativo", cls: "tag-edu" },
+      { label: "📱 Reels", cls: "tag-phone" }
+    ],
+    hook: '"Você passa horas na academia, corta carboidrato, bebe água que um camelo teria orgulho — e aquela parte teima em não mudar. Calma. Pode ser que você teja combatendo o inimigo errado."',
+    script: `[Tom de revelação cômica mas com informação real]
+
+"Vamos destrinchar isso de uma vez por todas.
+
+GORDURA LOCALIZADA:
+É acúmulo de gordura em regiões específicas — barriga, flancos, culotes.
+Responde à dieta e exercício? Um pouco. Mas tem limitação genética.
+Solução cirúrgica? Lipoaspiração. Funciona muito bem.
+
+[Expressão divertida]
+
+Tipo aquele primo que aparece na festa, come tudo, bebe tudo, e some antes de ajudar a lavar a louça.
+Dá pra resolver. Mas precisa de abordagem certa.
+
+FLACIDEZ:
+É perda de firmeza da pele e dos tecidos. Acontece com envelhecimento, perda de peso rápida, gestações.
+Exercício ajuda na musculatura, mas a PELE não volta sozinha quando perde a elasticidade.
+Solução? Depende do grau. Pode ser laser, bioestimulador, ou em casos mais avançados, cirurgia.
+
+[Tom mais sério]
+
+LIPEDEMA:
+E aqui a gente para o humor por um segundo.
+Lipedema é uma doença crônica que afeta principalmente mulheres. Causa acúmulo de gordura nas pernas e quadris que NÃO responde à dieta nem ao exercício.
+É genético. É doença. E muita mulher fica anos se culpando achando que 'é falta de força de vontade'.
+Não é. E merece diagnóstico e tratamento médico especializado.
+
+[Volta o tom leve]
+
+Então antes de fazer lipo, malhar mais, ou entrar em dieta radical...
+
+Venha entender o que de fato está acontecendo com o seu corpo.
+
+Porque tratar o problema errado com a solução certa... ainda é o problema errado."`,
+    cta: `💬 "Você se identificou com qual das três? Me conta nos comentários — sem julgamento aqui!"
+📌 Salva esse vídeo pra mandar pra quem precisa entender a diferença.`,
+    tip: `<strong>📸 Sugestão Visual:</strong> Pode usar gráfico ou infográfico simples mostrando as diferenças. Expressões faciais exageradas nas partes de humor e sério nas partes de lipedema. O contraste vai funcionar muito bem.`
+  },
+  {
+    num: "09",
+    title: "Cicatriz boa depende mais disso do que de pomada",
+    humor: true,
+    tom: "😂 Irônico + Muito Educativo",
+    tags: [
+      { label: "😂 Humor", cls: "tag-humor" },
+      { label: "🧠 Educativo", cls: "tag-edu" },
+      { label: "📱 Reels", cls: "tag-phone" }
+    ],
+    hook: '"Toda paciente sai da cirurgia perguntando qual pomada usar. Eu adoro a pergunta. Mas a resposta vai te surpreender."',
+    script: `[Tom de quem vai revelar uma verdade que vai frustrar e iluminar ao mesmo tempo]
+
+"Pomada de cicatriz. O produto mais recomendado, mais comprado, mais confiado no pós-operatório.
+
+E sim, ela ajuda. Eu não vou dizer que é inútil.
+
+MAS...
+
+[Pausa estratégica]
+
+Se você me perguntar o que mais determina se sua cicatriz vai ficar bonita ou feia, a pomada não é nem top 3.
+
+Quer saber o que realmente manda?
+
+NÚMERO UM: A genética.
+
+Algumas pessoas cicatrizam muito bem. Outras têm tendência a queloide ou cicatriz hipertrófica. Isso é biológico. Pomada não muda genética.
+
+É por isso que eu avalio o histórico da paciente antes de qualquer procedimento.
+
+NÚMERO DOIS: A técnica cirúrgica.
+
+Sutura bem feita, sem tensão excessiva, com o fio certo, no plano certo. Isso é o que a cicatriz vai mostrar para sempre.
+
+Cirurgião experiente fecha diferente. E faz diferença.
+
+NÚMERO TRÊS: Proteção solar.
+
+Sabe aquela cicatriz que ficou escura, marrom, aparente?
+
+Na maioria dos casos: sol.
+
+Cicatriz nova é extremamente sensível à radiação UV. Um dia de sol sem proteção pode comprometer meses de evolução.
+
+[Tom bem humorado]
+
+E o NÚMERO QUATRO? Aí sim: o cuidado local. A pomada. A faixa de silicone. A hidratação.
+
+Mas você viu: ela entrou em quarto lugar.
+
+[Olha pra câmera com expressão simpática]
+
+Então continua usando a pomada, tá?
+
+Só não coloca toda a esperança nela."`,
+    cta: `💬 "Você sabia que genética e técnica cirúrgica pesam mais do que a pomada? Comenta aqui!"
+📌 Salva esse vídeo antes da sua próxima cirurgia — vai mudar o que você pergunta pro seu médico.`,
+    tip: `<strong>📸 Sugestão Visual:</strong> Pode abrir segurando uma pomada famosa (sem mostrar marca se preferir). Expressão exagerada de "calma, vou te contar um segredo". Texto na tela com os 4 fatores em ordem. Ritmo dinâmico.`
+  }
+];
+
+// Build calendar
+const cal = document.getElementById('cal');
+roteiros.forEach((r, i) => {
+  const d = document.createElement('div');
+  d.className = 'cal-dot' + (i === 0 ? ' active' : '');
+  d.textContent = r.num;
+  d.addEventListener('click', () => {
+    document.querySelectorAll('.cal-dot').forEach(x => x.classList.remove('active'));
+    d.classList.add('active');
+    document.getElementById('card-' + i).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  cal.appendChild(d);
+});
+
+// Build cards
+const main = document.getElementById('roteiros');
+roteiros.forEach((r, i) => {
+  const tags = r.tags.map(t => `<span class="tag ${t.cls}">${t.label}</span>`).join('');
+  const humorBadge = r.humor
+    ? `<div class="humor-badge">😂 Tom: ${r.tom}</div>`
+    : `<div class="humor-badge" style="background:#e3f2fd;border-color:#1565c0;color:#1565c0;">🎯 Tom: ${r.tom}</div>`;
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.id = 'card-' + i;
+  card.innerHTML = `
+    <div class="card-header" onclick="toggle(${i})">
+      <div class="card-num">${r.num}</div>
+      <div class="card-meta">
+        <div class="card-title">${r.title}</div>
+        <div class="card-tags">${tags}</div>
+      </div>
+      <div class="card-toggle">▼</div>
+    </div>
+    <div class="card-body">
+      <div class="body-inner">
+        ${humorBadge}
+        <div class="sec-title">⚡ Hook (0–3 seg)</div>
+        <div class="hook-box">${r.hook}</div>
+        <div class="sec-title">🎬 Roteiro Completo</div>
+        <div class="script-box">${r.script}</div>
+        <div class="sec-title">📢 CTA Final</div>
+        <div class="cta-box">${r.cta.replace(/\n/g, '<br/>')}</div>
+        <div class="sec-title">🎥 Dicas de Produção</div>
+        <div class="tip-box">${r.tip}</div>
+      </div>
+    </div>
+  `;
+  main.appendChild(card);
+});
+
+function toggle(i) {
+  document.getElementById('card-' + i).classList.toggle('open');
+  // update calendar dot
+  document.querySelectorAll('.cal-dot').forEach((d, idx) => {
+    d.classList.toggle('active', idx === i && document.getElementById('card-' + i).classList.contains('open'));
+  });
+}
+</script>
+</body>
+</html>
